@@ -1,0 +1,34 @@
+version: 1.0
+shards:
+  gphoto2:
+    github: sija/gphoto2.cr
+    commit: 8b25a7e01eb0548dd10ef82d1ae8feb2b90628c1
+
+  hashids:
+    github: splattael/hashids.cr
+    commit: 4d30e41f46c879af59c0e5285a6c0544917704a5
+
+  kemal:
+    github: sdogruyol/kemal
+    commit: 99ae8c376e2de8afa35ce70439b9c0107848403b
+
+  kilt:
+    github: jeromegn/kilt
+    version: 0.3.3
+
+  multipart:
+    github: RX14/multipart.cr
+    version: 0.1.1
+
+  pool:
+    github: ysbaddaden/pool
+    commit: c4ecfad1b87fbd8c6484d1fd536ccfd14c40cc94
+
+  radix:
+    github: luislavena/radix
+    version: 0.3.5
+
+  zip-crystal:
+    github: pablotron/zip-crystal
+    commit: d7ca9376afab3eb8e08bcf42d27c913cfa05419c
+

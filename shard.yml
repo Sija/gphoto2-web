@@ -4,4 +4,27 @@ version: 0.1.0
 authors:
   - Sijawusz Pur Rahnama <sija@sija.pl>
 
+crystal: 0.20.3
+
+dependencies:
+  gphoto2:
+    github: sija/gphoto2.cr
+    branch: master
+  pool:
+    github: ysbaddaden/pool
+    branch: master
+  hashids:
+    github: splattael/hashids.cr
+    branch: master
+  kemal:
+    github: sdogruyol/kemal
+    branch: master
+  zip-crystal:
+    github: pablotron/zip-crystal
+    branch: master
+
+targets:
+  server:
+    main: src/gphoto2-web.cr
+
 license: MIT
