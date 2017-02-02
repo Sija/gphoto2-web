@@ -28,7 +28,3 @@ shards:
     github: luislavena/radix
     version: 0.3.5
 
-  zip-crystal:
-    github: pablotron/zip-crystal
-    commit: d7ca9376afab3eb8e08bcf42d27c913cfa05419c
-

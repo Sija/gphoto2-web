@@ -1,9 +1,9 @@
 require "tempfile"
 require "json"
+require "zip"
 require "gphoto2"
 require "kemal"
 require "pool/connection"
-require "zip-crystal/zip"
 
 require "./ext/*"
 require "./gphoto2/web"

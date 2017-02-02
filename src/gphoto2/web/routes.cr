@@ -79,8 +79,9 @@ def zip_visitor(zip, folder : GPhoto2::CameraFolder, root : String? = nil)
     pathname = root ? File.join(root, file.path) : file.path
     pathname = pathname[1..-1] if pathname.starts_with? '/'
     mtime = file.info.try(&.file.mtime) || Time.now
+    entry = Zip::Writer::Entry.new pathname, time: mtime
 
-    zip.add pathname, file.to_slice, time: mtime
+    zip.add entry, file.to_slice
   end
   folder.folders.each do |child|
     zip_visitor(zip, child, root)
@@ -97,7 +98,7 @@ get "/cameras/:id/fs.zip" do |env|
     archive_filename = "%s.zip" % archive_name
 
     tempfile = Tempfile.open(archive_filename) do |file|
-      Zip.write(file) do |zip|
+      Zip::Writer.open(file) do |zip|
         zip_visitor zip, fs, archive_name
       end
     end
