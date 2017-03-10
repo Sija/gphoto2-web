@@ -16,6 +16,9 @@ dependencies:
   hashids:
     github: splattael/hashids.cr
     branch: master
+  raven:
+    github: sija/raven.cr
+    branch: master
   kemal:
     github: kemalcr/kemal
     branch: master

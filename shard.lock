@@ -1,5 +1,9 @@
 version: 1.0
 shards:
+  any_hash:
+    github: sija/any_hash.cr
+    commit: a372bd7703b6100d7358e468afd240df44fb2216
+
   gphoto2:
     github: sija/gphoto2.cr
     commit: 8b25a7e01eb0548dd10ef82d1ae8feb2b90628c1
@@ -23,4 +27,8 @@ shards:
   radix:
     github: luislavena/radix
     version: 0.3.7
+
+  raven:
+    github: sija/raven.cr
+    commit: a4a6845083a768ed466739c4ed1fcd1fe57ce04c
 
