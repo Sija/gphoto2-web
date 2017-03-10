@@ -22,8 +22,9 @@ def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil)
 end
 
 def send_json(env, object)
-  env.response.content_type = "application/json"
-  object.to_json
+  object.to_json.tap do
+    env.response.content_type = "application/json"
+  end
 end
 
 def send_204(env)

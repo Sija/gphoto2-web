@@ -1,9 +1,9 @@
 require "tempfile"
 require "json"
 require "zip"
+require "pool/connection"
 require "gphoto2"
 require "kemal"
-require "pool/connection"
 require "raven"
 require "raven/integrations/kemal"
 

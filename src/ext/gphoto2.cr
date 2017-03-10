@@ -1,3 +1,4 @@
+require "gphoto2"
 require "hashids"
 
 module GPhoto2

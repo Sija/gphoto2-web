@@ -29,10 +29,10 @@ get "/cameras/:id/config" do |env|
 
   GPhoto2::Web.camera_by_id(id) do |camera|
     config = if env.params.query["flat"]? == "true"
-      camera.config
-    else
-      camera.window
-    end
+               camera.config
+             else
+               camera.window
+             end
     send_json env, config
   end
 end
@@ -61,7 +61,7 @@ post "/cameras/:id/config/:widget" do |env|
   value = env.params.json["value"].as(String)
 
   GPhoto2::Web.camera_by_id(id) do |camera|
-    camera.update({ widget => value })
+    camera.update({widget => value})
   end
   send_204 env
 end
