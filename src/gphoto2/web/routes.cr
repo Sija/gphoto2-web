@@ -97,14 +97,14 @@ get "/cameras/:id/fs.zip" do |env|
     archive_name = camera.model.gsub(/\s+/, '-')
     archive_filename = "%s.zip" % archive_name
 
-    tempfile = Tempfile.open(archive_filename) do |file|
+    tempfile = File.tempfile(prefix: "camera.fs", suffix: ".zip") do |file|
       Zip::Writer.open(file) do |zip|
         zip_visitor zip, fs, archive_name
       end
     end
 
-    env.response.headers["Content-Disposition"] = "attachment; filename=\"#{archive_filename}\""
-    send_file env, tempfile.path, "application/zip"
+    send_file env, tempfile.path, "application/zip",
+      filename: archive_filename
 
     tempfile.delete
   end

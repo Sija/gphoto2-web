@@ -1,24 +1,28 @@
 version: 1.0
 shards:
   any_hash:
-    github: sija/any_hash.cr
-    commit: a372bd7703b6100d7358e468afd240df44fb2216
+    github: Sija/any_hash.cr
+    version: 0.2.2
+
+  exception_page:
+    github: crystal-loot/exception_page
+    version: 0.1.2
 
   gphoto2:
-    github: sija/gphoto2.cr
-    commit: 8b25a7e01eb0548dd10ef82d1ae8feb2b90628c1
+    github: Sija/gphoto2.cr
+    commit: 8297f50c163e0ed4635e76466a4d9dd06080e3b3
 
   hashids:
     github: splattael/hashids.cr
-    commit: 8e4313820575a92c714440509b3c6f38dfa19c5b
+    commit: 8e204c550c0b1b8d4ec61a4e85feb39e02a21660
 
   kemal:
     github: kemalcr/kemal
-    commit: 1c527c2d94b032765fcb40640984c18b3b218f83
+    commit: ec87dfb61431773dd49b444953611f7fa878e919
 
   kilt:
     github: jeromegn/kilt
-    version: 0.3.3
+    version: 0.4.0
 
   pool:
     github: ysbaddaden/pool
@@ -26,9 +30,9 @@ shards:
 
   radix:
     github: luislavena/radix
-    version: 0.3.7
+    version: 0.3.9
 
   raven:
-    github: sija/raven.cr
-    commit: a4a6845083a768ed466739c4ed1fcd1fe57ce04c
+    github: Sija/raven.cr
+    commit: b34bc81917c7b221ebabdb537e31fe6abf14f811
 

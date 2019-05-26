@@ -1,24 +1,26 @@
-CONTENT_DISPOSITION_HEADER_NAME = "Content-Disposition"
-LAST_MODIFIED_HEADER_NAME       = "Last-Modified"
-LAST_MODIFIED_HEADER_FORMAT     = "%a, %d %b %Y %H:%M:%S GMT"
+LAST_MODIFIED_HEADER_NAME   = "Last-Modified"
+LAST_MODIFIED_HEADER_FORMAT = "%a, %d %b %Y %H:%M:%S GMT"
 
 def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil)
+  filename = nil
+
   # WARNING: Executes extra calls to underlying camera
   if file.preview?
-    env.response.headers[CONTENT_DISPOSITION_HEADER_NAME] = \
-      %(inline; filename="#{GPhoto2::CameraFile::PREVIEW_FILENAME}")
+    filename = GPhoto2::CameraFile::PREVIEW_FILENAME
     mime_type ||= "image/jpeg"
   else
+    filename = file.name
     info = file.info.file
-    env.response.headers[CONTENT_DISPOSITION_HEADER_NAME] = \
-      %(inline; filename="#{file.name}")
     if mtime = info.mtime
       env.response.headers[LAST_MODIFIED_HEADER_NAME] = \
-        mtime.to_s(LAST_MODIFIED_HEADER_FORMAT)
+         mtime.to_s(LAST_MODIFIED_HEADER_FORMAT)
     end
     mime_type ||= info.type
   end
-  send_file env, file.to_slice, mime_type
+
+  send_file env, file.to_slice, mime_type,
+    filename: filename,
+    disposition: "inline"
 end
 
 def send_json(env, object)

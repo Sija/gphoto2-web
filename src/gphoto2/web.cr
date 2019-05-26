@@ -12,7 +12,7 @@ module GPhoto2
       end
     end
 
-    def self.reset_cameras : Void
+    def self.reset_cameras : Nil
       return unless @@cameras
       @@cameras_mutex.synchronize do
         @@cameras.try &.each &.camera.close
@@ -41,9 +41,9 @@ module GPhoto2
         raise CameraNotFoundError.new
       end
       wrapper.pool.connection do |camera|
-        yielded_value = yield camera
-        camera.exit if exit
-        yielded_value
+        yield(camera).tap do
+          camera.exit if exit
+        end
       end
     end
   end
