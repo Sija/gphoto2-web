@@ -13,9 +13,6 @@ dependencies:
   pool:
     github: ysbaddaden/pool
     branch: master
-  hashids:
-    github: splattael/hashids.cr
-    branch: master
   raven:
     github: Sija/raven.cr
     branch: master

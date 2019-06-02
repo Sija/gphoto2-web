@@ -16,10 +16,6 @@ shards:
     github: Sija/gphoto2.cr
     commit: 8297f50c163e0ed4635e76466a4d9dd06080e3b3
 
-  hashids:
-    github: splattael/hashids.cr
-    commit: 8e204c550c0b1b8d4ec61a4e85feb39e02a21660
-
   kemal:
     github: kemalcr/kemal
     commit: ec87dfb61431773dd49b444953611f7fa878e919

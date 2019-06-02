@@ -1,22 +1,12 @@
+require "digest/sha1"
 require "gphoto2"
-require "hashids"
 
 module GPhoto2
-  @@hashids = Hashids.new
-
-  def self.hashids : Hashids
-    @@hashids
-  end
-
   class Camera
     getter id : String do
       sn = self[:serialnumber]?
-      id = if sn.try(&.some?)
-             [model.hash, sn.to_s.hash]
-           else
-             [model.hash, port.hash]
-           end
-      GPhoto2.hashids.encode id
+      id = sn.try(&.some?) ? sn.to_s : port
+      Digest::SHA1.hexdigest "#{model}-#{id}"
     end
   end
 
