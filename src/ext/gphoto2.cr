@@ -4,7 +4,7 @@ require "hashids"
 module GPhoto2
   @@hashids = Hashids.new
 
-  def self.hashids
+  def self.hashids : Hashids
     @@hashids
   end
 
@@ -40,6 +40,41 @@ module GPhoto2
         file_operations:   file_operations.to_s,
         folder_operations: folder_operations.to_s,
       }.to_json(json)
+    end
+  end
+
+  class CameraFolder
+    private def zip_visitor(zip, folder : CameraFolder, root : String? = nil)
+      folder.files.each do |file|
+        pathname = root ? File.join(root, file.path) : file.path
+        pathname = pathname[1..-1] if pathname.starts_with? '/'
+        mtime = file.info.try(&.file.mtime) || Time.now
+        entry = Zip::Writer::Entry.new pathname, time: mtime
+
+        zip.add entry, file.to_slice
+      end
+      folder.folders.each do |child|
+        zip_visitor(zip, child, root)
+      end
+    end
+
+    def to_zip_file(root : String? = nil) : File
+      root ||= name
+
+      File.tempfile(prefix: "camera.fs", suffix: ".zip") do |file|
+        Zip::Writer.open(file) do |zip|
+          zip_visitor zip, self, root
+        end
+      end
+    end
+
+    def to_zip_file(root : String? = nil) : Nil
+      tempfile = to_zip_file(root)
+      begin
+        yield tempfile
+      ensure
+        tempfile.delete
+      end
     end
   end
 

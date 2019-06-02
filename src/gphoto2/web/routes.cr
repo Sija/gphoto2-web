@@ -1,43 +1,42 @@
 get "/cameras" do |env|
-  send_json env, GPhoto2::Web.cameras.map(&.camera)
+  cameras = GPhoto2::Web.cameras.map(&.camera)
+  send_json env, cameras
 end
 
-get "/cameras/reload" do |env|
+post "/cameras/reload" do |env|
   GPhoto2::Web.reset_cameras
   GPhoto2::Web.cameras
-  env.redirect "/cameras"
+  send_204 env
 end
 
 get "/cameras/:id" do |env|
   id = env.params.url["id"]
-  camera = GPhoto2::Web.camera_by_id(id)
 
-  send_json env, camera
+  GPhoto2::Web.camera_by_id(id) do |camera|
+    send_json env, camera
+  end
 end
 
-get "/cameras/:id/exit" do |env|
+post "/cameras/:id/exit" do |env|
   id = env.params.url["id"]
 
   GPhoto2::Web.camera_by_id(id) do |camera|
     camera.exit
   end
-  env.redirect "/cameras"
+  send_204 env
 end
 
 get "/cameras/:id/config" do |env|
   id = env.params.url["id"]
+  flat = env.params.query["flat"]? == "true"
 
   GPhoto2::Web.camera_by_id(id) do |camera|
-    config = if env.params.query["flat"]? == "true"
-               camera.config
-             else
-               camera.window
-             end
+    config = flat ? camera.config : camera.window
     send_json env, config
   end
 end
 
-post "/cameras/:id/config" do |env|
+patch "/cameras/:id/config" do |env|
   id = env.params.url["id"]
 
   GPhoto2::Web.camera_by_id(id) do |camera|
@@ -51,11 +50,12 @@ get "/cameras/:id/config/:widget" do |env|
   widget = env.params.url["widget"]
 
   GPhoto2::Web.camera_by_id(id) do |camera|
-    send_json env, camera.config[widget]
+    config = camera.config[widget]
+    send_json env, config
   end
 end
 
-post "/cameras/:id/config/:widget" do |env|
+patch "/cameras/:id/config/:widget" do |env|
   id = env.params.url["id"]
   widget = env.params.url["widget"]
   value = env.params.json["value"].as(String)
@@ -70,21 +70,8 @@ get "/cameras/:id/fs" do |env|
   id = env.params.url["id"]
 
   GPhoto2::Web.camera_by_id(id) do |camera|
-    send_json env, camera.filesystem
-  end
-end
-
-def zip_visitor(zip, folder : GPhoto2::CameraFolder, root : String? = nil)
-  folder.files.each do |file|
-    pathname = root ? File.join(root, file.path) : file.path
-    pathname = pathname[1..-1] if pathname.starts_with? '/'
-    mtime = file.info.try(&.file.mtime) || Time.now
-    entry = Zip::Writer::Entry.new pathname, time: mtime
-
-    zip.add entry, file.to_slice
-  end
-  folder.folders.each do |child|
-    zip_visitor(zip, child, root)
+    fs = camera.filesystem
+    send_json env, fs
   end
 end
 
@@ -93,20 +80,7 @@ get "/cameras/:id/fs.zip" do |env|
 
   GPhoto2::Web.camera_by_id(id) do |camera|
     fs = camera.filesystem
-
-    archive_name = camera.model.gsub(/\s+/, '-')
-    archive_filename = "%s.zip" % archive_name
-
-    tempfile = File.tempfile(prefix: "camera.fs", suffix: ".zip") do |file|
-      Zip::Writer.open(file) do |zip|
-        zip_visitor zip, fs, archive_name
-      end
-    end
-
-    send_file env, tempfile.path, "application/zip",
-      filename: archive_filename
-
-    tempfile.delete
+    send_folder_zip env, fs
   end
 end
 
@@ -137,11 +111,14 @@ end
 
 get "/cameras/:id/capture" do |env|
   id = env.params.url["id"]
+  delete = env.params.query["delete"]? == "true"
 
   GPhoto2::Web.camera_by_id(id) do |camera|
     file = camera.capture
 
-    send_file env, file
+    send_file(env, file).tap do
+      file.delete if delete
+    end
   end
 end
 
@@ -151,7 +128,6 @@ get "/cameras/:id/preview" do |env|
   # NOTE: might be good to use queue here
   GPhoto2::Web.camera_by_id(id) do |camera|
     file = camera.preview
-
     send_file env, file
   end
 end

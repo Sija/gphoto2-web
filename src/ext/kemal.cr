@@ -23,13 +23,21 @@ def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil)
     disposition: "inline"
 end
 
-def send_json(env, object)
-  object.to_json.tap do
+def send_folder_zip(env, folder : GPhoto2::CameraFolder, archive_name : String? = nil)
+  archive_name ||= folder.root? ? folder.@camera.model.gsub(/\s+/, '-') : folder.name
+
+  folder.to_zip_file(archive_name) do |file|
+    send_file env, file.path, "application/zip",
+      filename: "#{archive_name}.zip"
+  end
+end
+
+def send_json(env, object) : Nil
+  object.to_json(env.response).tap do
     env.response.content_type = "application/json"
   end
 end
 
-def send_204(env)
+def send_204(env) : Nil
   env.response.status_code = 204
-  nil
 end
