@@ -6,7 +6,11 @@ shards:
 
   any_hash:
     github: Sija/any_hash.cr
-    version: 0.2.2
+    version: 0.2.3
+
+  debug:
+    github: Sija/debug.cr
+    version: 1.1.0
 
   exception_page:
     github: crystal-loot/exception_page
@@ -14,11 +18,11 @@ shards:
 
   gphoto2:
     github: Sija/gphoto2.cr
-    commit: 8297f50c163e0ed4635e76466a4d9dd06080e3b3
+    commit: e6beadbac1ce3441d7d72e980048df99fc1daa77
 
   kemal:
     github: kemalcr/kemal
-    commit: ec87dfb61431773dd49b444953611f7fa878e919
+    commit: c893172fbf5fd036073046cc7ceb92e8b9eb6551
 
   kilt:
     github: jeromegn/kilt
@@ -26,7 +30,7 @@ shards:
 
   pool:
     github: ysbaddaden/pool
-    commit: c4ecfad1b87fbd8c6484d1fd536ccfd14c40cc94
+    commit: 1cf017762c88c71015b6e0ff258c65150102b4c8
 
   radix:
     github: luislavena/radix
@@ -34,5 +38,5 @@ shards:
 
   raven:
     github: Sija/raven.cr
-    commit: b34bc81917c7b221ebabdb537e31fe6abf14f811
+    commit: 6a4afdd02d3e66046b41093767e66190ecc081ee
 

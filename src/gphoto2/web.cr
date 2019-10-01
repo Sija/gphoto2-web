@@ -22,7 +22,7 @@ module GPhoto2
 
     @[AlwaysInline]
     def self.camera_by_id(id) : GPhoto2::Camera
-      GPhoto2.log id
+      Debug.log id
 
       found = cameras.select &.camera.id.==(id)
       unless wrapper = found.first?
@@ -34,7 +34,7 @@ module GPhoto2
 
     @[AlwaysInline]
     def self.camera_by_id(id, exit = false, &block)
-      GPhoto2.log id
+      Debug.log id
 
       found = cameras.select &.camera.id.==(id)
       unless wrapper = found.first?
