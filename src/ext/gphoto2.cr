@@ -38,7 +38,7 @@ module GPhoto2
       folder.files.each do |file|
         pathname = root ? File.join(root, file.path) : file.path
         pathname = pathname[1..-1] if pathname.starts_with? '/'
-        mtime = file.info.try(&.file.mtime) || Time.now
+        mtime = file.info.try(&.file.mtime) || Time.local
         entry = Zip::Writer::Entry.new pathname, time: mtime
 
         zip.add entry, file.to_slice
