@@ -2,7 +2,7 @@ version: 1.0
 shards:
   ameba:
     github: crystal-ameba/ameba
-    version: 0.10.1
+    version: 0.11.0
 
   any_hash:
     github: Sija/any_hash.cr
@@ -22,7 +22,7 @@ shards:
 
   kemal:
     github: kemalcr/kemal
-    commit: c893172fbf5fd036073046cc7ceb92e8b9eb6551
+    commit: 4d6fb0614f29aa02254913dc6ed69b0cb148fa81
 
   kilt:
     github: jeromegn/kilt
@@ -38,5 +38,5 @@ shards:
 
   raven:
     github: Sija/raven.cr
-    commit: 6a4afdd02d3e66046b41093767e66190ecc081ee
+    commit: 16d04faabdd7041a749934e49f9bb3e85078b71e
 
