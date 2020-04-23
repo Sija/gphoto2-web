@@ -27,6 +27,6 @@ development_dependencies:
 
 targets:
   server:
-    main: src/gphoto2-web.cr
+    main: src/server.cr
 
 license: MIT
