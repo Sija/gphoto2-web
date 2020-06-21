@@ -4,7 +4,7 @@ version: 0.1.0
 authors:
   - Sijawusz Pur Rahnama <sija@sija.pl>
 
-crystal: 0.28.0
+crystal: 0.35.0
 
 dependencies:
   gphoto2:
