@@ -20,5 +20,6 @@ install:
 
 script:
   - crystal spec
+  - shards build server
   - crystal tool format --check
   - bin/ameba
