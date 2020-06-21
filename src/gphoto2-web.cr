@@ -1,5 +1,5 @@
 require "json"
-require "zip"
+require "compress/zip"
 require "pool/connection"
 require "gphoto2"
 require "kemal"

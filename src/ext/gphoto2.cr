@@ -39,7 +39,7 @@ module GPhoto2
         pathname = root ? File.join(root, file.path) : file.path
         pathname = pathname[1..-1] if pathname.starts_with? '/'
         mtime = file.info.try(&.file.mtime) || Time.local
-        entry = Zip::Writer::Entry.new pathname, time: mtime
+        entry = Compress::Zip::Writer::Entry.new pathname, time: mtime
 
         zip.add entry, file.to_slice
       end
@@ -52,7 +52,7 @@ module GPhoto2
       root ||= name
 
       File.tempfile(prefix: "camera.fs", suffix: ".zip") do |file|
-        Zip::Writer.open(file) do |zip|
+        Compress::Zip::Writer.open(file) do |zip|
           zip_visitor zip, self, root
         end
       end
