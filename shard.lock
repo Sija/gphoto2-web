@@ -1,42 +1,42 @@
-version: 1.0
+version: 2.0
 shards:
   ameba:
-    github: crystal-ameba/ameba
+    git: https://github.com/crystal-ameba/ameba.git
     version: 0.12.1
 
   any_hash:
-    github: Sija/any_hash.cr
+    git: https://github.com/Sija/any_hash.cr.git
     version: 0.2.3
 
   debug:
-    github: Sija/debug.cr
+    git: https://github.com/Sija/debug.cr.git
     version: 1.1.0
 
   exception_page:
-    github: crystal-loot/exception_page
-    version: 0.1.2
+    git: https://github.com/crystal-loot/exception_page.git
+    version: 0.1.4
 
   gphoto2:
-    github: Sija/gphoto2.cr
-    commit: e6beadbac1ce3441d7d72e980048df99fc1daa77
+    git: https://github.com/Sija/gphoto2.cr.git
+    version: 0.7.6+git.commit.e6beadbac1ce3441d7d72e980048df99fc1daa77
 
   kemal:
-    github: kemalcr/kemal
-    commit: c3c43145b8951b511790287ef3cd872f75c55c89
+    git: https://github.com/kemalcr/kemal.git
+    version: 0.26.1+git.commit.a8c0f09b858162bd13c96663febef5527b322a32
 
   kilt:
-    github: jeromegn/kilt
+    git: https://github.com/jeromegn/kilt.git
     version: 0.4.0
 
   pool:
-    github: ysbaddaden/pool
-    commit: 1cf017762c88c71015b6e0ff258c65150102b4c8
+    git: https://github.com/ysbaddaden/pool.git
+    version: 0.2.3+git.commit.1cf017762c88c71015b6e0ff258c65150102b4c8
 
   radix:
-    github: luislavena/radix
+    git: https://github.com/luislavena/radix.git
     version: 0.3.9
 
   raven:
-    github: Sija/raven.cr
-    commit: 16d04faabdd7041a749934e49f9bb3e85078b71e
+    git: https://github.com/Sija/raven.cr.git
+    version: 1.7.1+git.commit.d20075611f0a4d610055ea3ee311a061b7be964b
 
