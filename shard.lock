@@ -18,7 +18,7 @@ shards:
 
   gphoto2:
     git: https://github.com/Sija/gphoto2.cr.git
-    version: 0.7.6+git.commit.e6beadbac1ce3441d7d72e980048df99fc1daa77
+    version: 0.7.6
 
   kemal:
     git: https://github.com/kemalcr/kemal.git
@@ -30,7 +30,7 @@ shards:
 
   pool:
     git: https://github.com/ysbaddaden/pool.git
-    version: 0.2.3+git.commit.1cf017762c88c71015b6e0ff258c65150102b4c8
+    version: 0.2.3
 
   radix:
     git: https://github.com/luislavena/radix.git
@@ -38,5 +38,5 @@ shards:
 
   raven:
     git: https://github.com/Sija/raven.cr.git
-    version: 1.7.1+git.commit.d20075611f0a4d610055ea3ee311a061b7be964b
+    version: 1.7.1
 

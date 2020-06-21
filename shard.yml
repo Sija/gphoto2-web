@@ -4,18 +4,18 @@ version: 0.1.0
 authors:
   - Sijawusz Pur Rahnama <sija@sija.pl>
 
-crystal: 0.35.0
+crystal: ~> 0.35
 
 dependencies:
   gphoto2:
     github: Sija/gphoto2.cr
-    branch: master
+    version: ~> 0.7.6
   pool:
     github: ysbaddaden/pool
-    branch: master
+    version: ~> 0.2.3
   raven:
     github: Sija/raven.cr
-    branch: master
+    version: ~> 1.7.1
   kemal:
     github: kemalcr/kemal
     branch: master
