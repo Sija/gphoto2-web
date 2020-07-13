@@ -33,9 +33,8 @@ def send_folder_zip(env, folder : GPhoto2::CameraFolder, archive_name : String? 
 end
 
 def send_json(env, object) : Nil
-  object.to_json(env.response).tap do
-    env.response.content_type = "application/json"
-  end
+  object.to_json env.response
+    .tap &.content_type = "application/json"
 end
 
 def send_204(env) : Nil
