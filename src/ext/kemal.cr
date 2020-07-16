@@ -1,8 +1,5 @@
-LAST_MODIFIED_HEADER_NAME   = "Last-Modified"
-LAST_MODIFIED_HEADER_FORMAT = "%a, %d %b %Y %H:%M:%S GMT"
-
-def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil)
-  filename = nil
+def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil, disposition : String? = nil)
+  disposition ||= "inline"
 
   # WARNING: Executes extra calls to underlying camera
   if file.preview?
@@ -10,21 +7,24 @@ def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil)
     mime_type ||= "image/jpeg"
   else
     filename = file.name
-    info = file.info.file
-    if mtime = info.mtime
-      env.response.headers[LAST_MODIFIED_HEADER_NAME] = \
-         mtime.to_s(LAST_MODIFIED_HEADER_FORMAT)
+    if info = file.info.file?
+      if mtime = info.mtime
+        env.response.headers["Last-Modified"] =
+          mtime.to_s("%a, %d %b %Y %H:%M:%S GMT")
+      end
+      mime_type ||= info.type
     end
-    mime_type ||= info.type
   end
 
-  send_file env, file.to_slice, mime_type,
+  send_file env, file.to_slice,
+    mime_type: mime_type,
     filename: filename,
-    disposition: "inline"
+    disposition: disposition
 end
 
 def send_folder_zip(env, folder : GPhoto2::CameraFolder, archive_name : String? = nil)
-  archive_name ||= folder.root? ? folder.@camera.model.gsub(/\s+/, '-') : folder.name
+  archive_name ||= folder.root? ? folder.@camera.model : folder.name
+  archive_name &&= archive_name.gsub(/\s+/, '-')
 
   folder.to_zip_file(archive_name) do |file|
     send_file env, file.path, "application/zip",
@@ -33,10 +33,10 @@ def send_folder_zip(env, folder : GPhoto2::CameraFolder, archive_name : String? 
 end
 
 def send_json(env, object) : Nil
-  object.to_json env.response
-    .tap &.content_type = "application/json"
+  env.response.content_type = "application/json"
+  object.to_json(env.response)
 end
 
 def send_204(env) : Nil
-  env.response.status_code = 204
+  env.response.status = :no_content
 end

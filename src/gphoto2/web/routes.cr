@@ -112,7 +112,6 @@ get "/cameras/:id/blob/*filepath" do |env|
   GPhoto2::Web.camera_by_id(id) do |camera|
     fs = camera.filesystem File.dirname(filepath)
     file = fs.open File.basename(filepath)
-
     send_file env, file
   end
 end
@@ -124,7 +123,6 @@ delete "/cameras/:id/blob/*filepath" do |env|
   GPhoto2::Web.camera_by_id(id) do |camera|
     fs = camera.filesystem File.dirname(filepath)
     file = fs.open File.basename(filepath)
-
     file.delete
   end
   send_204 env
@@ -136,7 +134,6 @@ get "/cameras/:id/capture" do |env|
 
   GPhoto2::Web.camera_by_id(id) do |camera|
     file = camera.capture
-
     send_file(env, file).tap do
       file.delete if delete
     end

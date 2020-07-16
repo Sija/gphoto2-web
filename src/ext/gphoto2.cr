@@ -37,8 +37,8 @@ module GPhoto2
     private def zip_visitor(zip, folder : CameraFolder, root : String? = nil)
       folder.files.each do |file|
         pathname = root ? File.join(root, file.path) : file.path
-        pathname = pathname[1..-1] if pathname.starts_with? '/'
-        mtime = file.info.try(&.file.mtime) || Time.local
+        pathname = pathname[1..] if pathname.starts_with? '/'
+        mtime = file.info.file?.try(&.mtime) || Time.local
         entry = Compress::Zip::Writer::Entry.new pathname, time: mtime
 
         zip.add entry, file.to_slice
@@ -85,7 +85,7 @@ module GPhoto2
         path:   path,
         folder: folder,
         name:   name,
-        info:   info.try(&.file),
+        info:   info.file?,
       }.to_json(json)
     end
   end
@@ -109,8 +109,8 @@ module GPhoto2
   class CameraWidget
     class Base
       def none?
-        value = self.to_s.downcase
-        value.empty? || value == "none"
+        value = to_s.downcase.presence
+        value.in?(nil, "none")
       end
 
       def some?
