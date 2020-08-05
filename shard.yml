@@ -9,13 +9,13 @@ crystal: ~> 0.35
 dependencies:
   gphoto2:
     github: Sija/gphoto2.cr
-    version: ~> 0.7.6
+    version: ~> 0.8.0
   pool:
     github: ysbaddaden/pool
     version: ~> 0.2.3
   raven:
     github: Sija/raven.cr
-    version: ~> 1.7.1
+    version: ~> 1.8.0
   kemal:
     github: kemalcr/kemal
     branch: master

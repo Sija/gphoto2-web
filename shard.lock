@@ -2,7 +2,7 @@ version: 2.0
 shards:
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 0.13.0
+    version: 0.13.1
 
   any_hash:
     git: https://github.com/Sija/any_hash.cr.git
@@ -10,7 +10,7 @@ shards:
 
   debug:
     git: https://github.com/Sija/debug.cr.git
-    version: 1.1.0
+    version: 2.0.0
 
   exception_page:
     git: https://github.com/crystal-loot/exception_page.git
@@ -18,11 +18,11 @@ shards:
 
   gphoto2:
     git: https://github.com/Sija/gphoto2.cr.git
-    version: 0.7.6
+    version: 0.8.0
 
   kemal:
     git: https://github.com/kemalcr/kemal.git
-    version: 0.26.1+git.commit.a8c0f09b858162bd13c96663febef5527b322a32
+    version: 0.26.1+git.commit.dfe7dca08f4c9a9456d6132af5f6b59fcd6865e4
 
   kilt:
     git: https://github.com/jeromegn/kilt.git
@@ -38,5 +38,5 @@ shards:
 
   raven:
     git: https://github.com/Sija/raven.cr.git
-    version: 1.7.1
+    version: 1.8.0
 
