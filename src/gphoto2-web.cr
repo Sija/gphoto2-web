@@ -5,6 +5,7 @@ require "gphoto2"
 require "kemal"
 require "raven"
 require "raven/integrations/kemal"
+require "raven/integrations/kernel/logger"
 
 require "./ext/*"
 require "./gphoto2/web"
