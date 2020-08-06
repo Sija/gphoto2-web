@@ -1,3 +1,6 @@
+sudo: required
+dist: bionic
+
 language: crystal
 
 crystal:
@@ -11,6 +14,8 @@ jobs:
 addons:
   apt:
     packages:
+      - libevent-dev
+      - libyaml-dev
       - libgphoto2-6
       - libgphoto2-dev
       - libgphoto2-port12
