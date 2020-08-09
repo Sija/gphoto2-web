@@ -22,11 +22,12 @@ REST web API for the [libgphoto2](http://www.gphoto.org/) library. You can use i
 - `GET /cameras/:id/config/:widget`
 - `PATCH /cameras/:id/config/:widget`
 - `GET /cameras/:id/fs`
-- `GET /cameras/:id/fs.zip`
 - `GET /cameras/:id/fs/*path`
 - `DELETE /cameras/:id/fs/*path`
 - `GET /cameras/:id/blob/*filepath`
 - `DELETE /cameras/:id/blob/*filepath`
+- `GET /cameras/:id/zip`
+- `GET /cameras/:id/zip/*path`
 - `GET /cameras/:id/capture`
 - `GET /cameras/:id/preview`
 
