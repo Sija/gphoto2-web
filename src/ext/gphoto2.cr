@@ -48,13 +48,17 @@ module GPhoto2
       end
     end
 
-    def to_zip_file(root : String? = nil) : File
+    def to_zip_file(io : IO, root : String? = nil) : Nil
       root ||= name
 
+      Compress::Zip::Writer.open(io) do |zip|
+        zip_visitor zip, self, root
+      end
+    end
+
+    def to_zip_file(root : String? = nil) : File
       File.tempfile(prefix: "camera.fs", suffix: ".zip") do |file|
-        Compress::Zip::Writer.open(file) do |zip|
-          zip_visitor zip, self, root
-        end
+        to_zip_file(file, root)
       end
     end
 

@@ -22,14 +22,16 @@ def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil, dispos
     disposition: disposition
 end
 
-def send_folder_zip(env, folder : GPhoto2::CameraFolder, archive_name : String? = nil)
+def send_folder_zip(env, folder : GPhoto2::CameraFolder, archive_name : String? = nil) : Nil
   archive_name ||= folder.root? ? folder.@camera.model : folder.name
   archive_name &&= archive_name.gsub(/\s+/, '-')
 
-  folder.to_zip_file(archive_name) do |file|
-    send_file env, file.path, "application/zip",
-      filename: "#{archive_name}.zip"
-  end
+  env.response
+    .tap(&.content_type = "application/zip")
+    .tap(&.headers["Content-Disposition"] = \
+       %(attachment; filename="#{archive_name}.zip"))
+
+  folder.to_zip_file(env.response, archive_name)
 end
 
 def send_json(env, object) : Nil
