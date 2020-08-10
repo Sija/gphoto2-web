@@ -124,7 +124,8 @@ get "/cameras/:id/zip" do |env|
 
   GPhoto2::Web.camera_by_id(id) do |camera|
     fs = camera.filesystem
-    send_folder_zip env, fs
+    send_folder_zip env, fs,
+      archive_name: camera.model
   end
 end
 

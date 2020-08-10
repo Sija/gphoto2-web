@@ -23,8 +23,7 @@ def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil, dispos
 end
 
 def send_folder_zip(env, folder : GPhoto2::CameraFolder, archive_name : String? = nil) : Nil
-  archive_name ||= folder.root? ? folder.@camera.model : folder.name
-  archive_name &&= archive_name.gsub(/\s+/, '-')
+  archive_name ||= folder.name
 
   env.response
     .tap(&.content_type = "application/zip")
