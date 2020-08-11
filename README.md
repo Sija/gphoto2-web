@@ -13,23 +13,43 @@ REST web API for the [libgphoto2](http://www.gphoto.org/) library. You can use i
 
 ### Available endpoints
 
+#### `/cameras`
+
 - `GET /cameras`
 - `POST /cameras/reload`
+
+#### `/cameras/:id`
+
 - `GET /cameras/:id`
+- `GET /cameras/:id/capture[?delete=true]`
+- `GET /cameras/:id/preview`
 - `POST /cameras/:id/exit`
-- `GET /cameras/:id/config`
+
+#### `/cameras/:id/config`
+
+- `GET /cameras/:id/config[?flat=true]`
 - `PATCH /cameras/:id/config`
+
+#### `/cameras/:id/config/:widget`
+
 - `GET /cameras/:id/config/:widget`
 - `PATCH /cameras/:id/config/:widget`
+
+#### `/cameras/:id/fs`
+
 - `GET /cameras/:id/fs`
 - `GET /cameras/:id/fs/*path`
 - `DELETE /cameras/:id/fs/*path`
+
+#### `/cameras/:id/blob`
+
 - `GET /cameras/:id/blob/*filepath`
 - `DELETE /cameras/:id/blob/*filepath`
+
+#### `/cameras/:id/zip`
+
 - `GET /cameras/:id/zip`
 - `GET /cameras/:id/zip/*path`
-- `GET /cameras/:id/capture`
-- `GET /cameras/:id/preview`
 
 ## Development
 

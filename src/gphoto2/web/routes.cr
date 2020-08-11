@@ -1,3 +1,5 @@
+# /cameras
+
 get "/cameras" do |env|
   cameras = GPhoto2::Web.cameras.map(&.camera)
   send_json env, cameras
@@ -9,11 +11,35 @@ post "/cameras/reload" do |env|
   send_204 env
 end
 
+# /cameras/:id
+
 get "/cameras/:id" do |env|
   id = env.params.url["id"]
 
   GPhoto2::Web.camera_by_id(id) do |camera|
     send_json env, camera
+  end
+end
+
+get "/cameras/:id/capture" do |env|
+  id = env.params.url["id"]
+  delete = env.params.query["delete"]? == "true"
+
+  GPhoto2::Web.camera_by_id(id) do |camera|
+    file = camera.capture
+    send_file(env, file).tap do
+      file.delete if delete
+    end
+  end
+end
+
+get "/cameras/:id/preview" do |env|
+  id = env.params.url["id"]
+
+  # NOTE: might be good to use queue here
+  GPhoto2::Web.camera_by_id(id) do |camera|
+    file = camera.preview
+    send_file env, file
   end
 end
 
@@ -25,6 +51,8 @@ post "/cameras/:id/exit" do |env|
   end
   send_204 env
 end
+
+# /cameras/:id/config
 
 get "/cameras/:id/config" do |env|
   id = env.params.url["id"]
@@ -44,6 +72,8 @@ patch "/cameras/:id/config" do |env|
   end
   send_204 env
 end
+
+# /cameras/:id/config/:widget
 
 get "/cameras/:id/config/:widget" do |env|
   id = env.params.url["id"]
@@ -65,6 +95,8 @@ patch "/cameras/:id/config/:widget" do |env|
   end
   send_204 env
 end
+
+# /cameras/:id/fs
 
 get "/cameras/:id/fs" do |env|
   id = env.params.url["id"]
@@ -96,6 +128,8 @@ delete "/cameras/:id/fs/*path" do |env|
   send_204 env
 end
 
+# /cameras/:id/blob
+
 get "/cameras/:id/blob/*filepath" do |env|
   id = env.params.url["id"]
   filepath = env.params.url["filepath"]
@@ -121,6 +155,8 @@ delete "/cameras/:id/blob/*filepath" do |env|
   send_204 env
 end
 
+# /cameras/:id/zip
+
 get "/cameras/:id/zip" do |env|
   id = env.params.url["id"]
 
@@ -138,27 +174,5 @@ get "/cameras/:id/zip/*path" do |env|
   GPhoto2::Web.camera_by_id(id) do |camera|
     fs = camera / path
     send_folder_zip env, fs
-  end
-end
-
-get "/cameras/:id/capture" do |env|
-  id = env.params.url["id"]
-  delete = env.params.query["delete"]? == "true"
-
-  GPhoto2::Web.camera_by_id(id) do |camera|
-    file = camera.capture
-    send_file(env, file).tap do
-      file.delete if delete
-    end
-  end
-end
-
-get "/cameras/:id/preview" do |env|
-  id = env.params.url["id"]
-
-  # NOTE: might be good to use queue here
-  GPhoto2::Web.camera_by_id(id) do |camera|
-    file = camera.preview
-    send_file env, file
   end
 end
