@@ -43,20 +43,19 @@ end
 def send_folder_zip(env, folder : GPhoto2::CameraFolder, archive_name : String? = nil) : Nil
   archive_name ||= folder.name
 
-  restore_headers_on_rescue(env.response) do |response|
-    response
-      .tap(&.content_type = "application/zip")
-      .tap(&.headers["Content-Disposition"] = \
-         %(attachment; filename="#{archive_name}.zip"))
-
-    folder.to_zip_file(response, archive_name)
+  restore_headers_on_rescue(env.response) do
+    folder.to_zip_file(archive_name) do |file|
+      send_file env, file.path,
+        mime_type: "application/zip",
+        filename: "#{archive_name}.zip"
+    end
   end
 end
 
 def send_json(env, object) : Nil
   restore_headers_on_rescue(env.response) do |response|
     response.content_type = "application/json"
-    object.to_json(response)
+    response << object.to_json
   end
 end
 
