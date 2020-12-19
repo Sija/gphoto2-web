@@ -2,7 +2,7 @@ version: 2.0
 shards:
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 0.13.1
+    version: 0.13.3
 
   any_hash:
     git: https://github.com/Sija/any_hash.cr.git
@@ -22,7 +22,7 @@ shards:
 
   kemal:
     git: https://github.com/kemalcr/kemal.git
-    version: 0.26.1+git.commit.dfe7dca08f4c9a9456d6132af5f6b59fcd6865e4
+    version: 0.27.0
 
   kilt:
     git: https://github.com/jeromegn/kilt.git
@@ -38,5 +38,5 @@ shards:
 
   raven:
     git: https://github.com/Sija/raven.cr.git
-    version: 1.8.0
+    version: 1.8.1
 
