@@ -4,8 +4,6 @@ version: 0.1.0
 authors:
   - Sijawusz Pur Rahnama <sija@sija.pl>
 
-crystal: ~> 0.35
-
 dependencies:
   gphoto2:
     github: Sija/gphoto2.cr
@@ -28,5 +26,7 @@ development_dependencies:
 targets:
   server:
     main: src/server.cr
+
+crystal: ">= 0.35.0"
 
 license: MIT
