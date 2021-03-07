@@ -22,7 +22,7 @@ shards:
 
   gphoto2:
     git: https://github.com/Sija/gphoto2.cr.git
-    version: 0.8.0
+    version: 0.9.0
 
   kemal:
     git: https://github.com/kemalcr/kemal.git
