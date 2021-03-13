@@ -1,4 +1,4 @@
-# gphoto2-web.cr [![Build Status](https://travis-ci.com/Sija/gphoto2-web.cr.svg?branch=master)](https://travis-ci.com/Sija/gphoto2-web.cr) [![License](https://img.shields.io/github/license/Sija/gphoto2-web.cr.svg)](https://github.com/Sija/gphoto2-web.cr/blob/master/LICENSE)
+# gphoto2-web.cr [![CI](https://github.com/Sija/gphoto2-web.cr/actions/workflows/ci.yml/badge.svg)](https://github.com/Sija/gphoto2-web.cr/actions/workflows/ci.yml) [![License](https://img.shields.io/github/license/Sija/gphoto2-web.cr.svg)](https://github.com/Sija/gphoto2-web.cr/blob/master/LICENSE)
 
 REST web API for the [libgphoto2](http://www.gphoto.org/) library. You can use it to take pictures, previews (handy for implementing poor man's liveview feature), control/obtain various camera settings, and access connected camera's filesystem - all via JSON-based requests.
 
