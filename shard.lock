@@ -2,7 +2,7 @@ version: 2.0
 shards:
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 1.0.0
+    version: 1.0.1
 
   any_hash:
     git: https://github.com/sija/any_hash.cr.git
@@ -14,7 +14,7 @@ shards:
 
   debug:
     git: https://github.com/sija/debug.cr.git
-    version: 2.0.1
+    version: 2.0.2
 
   exception_page:
     git: https://github.com/crystal-loot/exception_page.git
@@ -38,5 +38,5 @@ shards:
 
   raven:
     git: https://github.com/sija/raven.cr.git
-    version: 1.9.1
+    version: 1.9.2
 
