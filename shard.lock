@@ -2,7 +2,7 @@ version: 2.0
 shards:
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 1.0.1
+    version: 1.2.0
 
   any_hash:
     git: https://github.com/sija/any_hash.cr.git
@@ -10,7 +10,7 @@ shards:
 
   backtracer:
     git: https://github.com/sija/backtracer.cr.git
-    version: 1.2.1
+    version: 1.2.2
 
   debug:
     git: https://github.com/sija/debug.cr.git
@@ -18,7 +18,7 @@ shards:
 
   exception_page:
     git: https://github.com/crystal-loot/exception_page.git
-    version: 0.2.2
+    version: 0.3.0
 
   gphoto2:
     git: https://github.com/sija/gphoto2.cr.git
@@ -26,7 +26,7 @@ shards:
 
   kemal:
     git: https://github.com/kemalcr/kemal.git
-    version: 1.2.0
+    version: 1.3.0
 
   pool:
     git: https://github.com/ysbaddaden/pool.git
