@@ -33,7 +33,7 @@ module GPhoto2
     end
 
     @[AlwaysInline]
-    def self.camera_by_id(id, exit = false, &block)
+    def self.camera_by_id(id, exit = false, &)
       Debug.log id
 
       wrapper = cameras.find &.camera.id.==(id)

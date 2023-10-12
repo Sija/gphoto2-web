@@ -53,7 +53,7 @@ module GPhoto2
       end
     end
 
-    def to_zip_file(root : String? = nil) : Nil
+    def to_zip_file(root : String? = nil, &) : Nil
       tempfile = to_zip_file(root)
       begin
         yield tempfile

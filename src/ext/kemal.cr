@@ -1,4 +1,4 @@
-protected def restore_headers_on_rescue(response)
+protected def restore_headers_on_rescue(response, &)
   prev_headers = response.headers.clone
   begin
     yield response
