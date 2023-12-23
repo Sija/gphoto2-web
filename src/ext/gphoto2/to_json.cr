@@ -68,7 +68,7 @@ module GPhoto2
         {
           name:     name,
           label:    label,
-          info:     info,
+          info:     info.presence,
           type:     type.to_s,
           value:    value, # rescue NotImplementedError ?
           readonly: readonly?,
@@ -81,7 +81,7 @@ module GPhoto2
         {
           name:     name,
           label:    label,
-          info:     info,
+          info:     info.presence,
           type:     type.to_s,
           children: children,
         }.to_json(json)
@@ -93,7 +93,7 @@ module GPhoto2
         {
           name:     name,
           label:    label,
-          info:     info,
+          info:     info.presence,
           type:     type.to_s,
           children: children,
         }.to_json(json)
