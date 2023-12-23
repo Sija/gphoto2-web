@@ -5,7 +5,7 @@ module GPhoto2
       getter pool : ConnectionPool(Camera) do
         ConnectionPool.new(
           capacity: 1,
-          timeout: @timeout.total_seconds
+          timeout: @timeout,
         ) { camera }
       end
 

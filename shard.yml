@@ -10,7 +10,7 @@ dependencies:
     version: ~> 0.9.0
   pool:
     github: ysbaddaden/pool
-    version: ~> 0.2.4
+    version: ~> 0.3.0
   raven:
     github: Sija/raven.cr
     version: ~> 1.9.2
