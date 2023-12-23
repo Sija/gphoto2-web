@@ -176,3 +176,9 @@ get "/cameras/:id/zip/*path" do |env|
     send_folder_zip env, fs
   end
 end
+
+# 404 page
+
+error 404 do |env|
+  send_json env, {error: "Not found"}
+end
