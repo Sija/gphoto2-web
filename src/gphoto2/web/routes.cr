@@ -5,7 +5,7 @@ get "/cameras" do |env|
   send_json env, cameras
 end
 
-post "/cameras/reload" do |env|
+get "/cameras/reload" do |env|
   GPhoto2::Web.reset_cameras
   GPhoto2::Web.cameras
   send_204 env
@@ -43,7 +43,7 @@ get "/cameras/:id/preview" do |env|
   end
 end
 
-post "/cameras/:id/exit" do |env|
+get "/cameras/:id/exit" do |env|
   id = env.params.url["id"]
 
   GPhoto2::Web.camera_by_id(id) do |camera|
