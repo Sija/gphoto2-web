@@ -21,7 +21,6 @@ module GPhoto2
       end
     end
 
-    @[AlwaysInline]
     def self.camera_by_id(id) : Camera
       Debug.log id
 
@@ -32,7 +31,6 @@ module GPhoto2
       wrapper.camera
     end
 
-    @[AlwaysInline]
     def self.camera_by_id(id, exit = false, &)
       Debug.log id
 
