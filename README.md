@@ -16,14 +16,14 @@ REST web API for the [libgphoto2](http://www.gphoto.org/) library. You can use i
 #### `/cameras`
 
 - `GET /cameras`
-- `POST /cameras/reload`
+- `GET /cameras/reload`
 
 #### `/cameras/:id`
 
 - `GET /cameras/:id`
 - `GET /cameras/:id/capture[?delete=true]`
 - `GET /cameras/:id/preview`
-- `POST /cameras/:id/exit`
+- `GET /cameras/:id/exit`
 
 #### `/cameras/:id/config`
 
