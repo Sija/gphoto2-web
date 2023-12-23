@@ -29,7 +29,7 @@ module GPhoto2
       {
         path:    path,
         name:    name,
-        folders: folders,
+        folders: folders.map(&.name),
         files:   files,
       }.to_json(json)
     end
