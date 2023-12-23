@@ -38,10 +38,9 @@ module GPhoto2
   class CameraFile
     def to_json(json : JSON::Builder)
       {
-        path:   path,
-        folder: folder,
-        name:   name,
-        info:   info.file?,
+        path: path,
+        name: name,
+        info: info.file?,
       }.to_json(json)
     end
   end
