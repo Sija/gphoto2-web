@@ -2,6 +2,7 @@ require "./gphoto2-web"
 
 production = Kemal.config.env == "production"
 
+# ameba:disable Naming/BlockParameterName
 Log.setup do |c|
   severity =
     production ? Log::Severity::Info : Log::Severity::Debug
