@@ -174,8 +174,21 @@ get "/cameras/:id/zip/*path" do |env|
   end
 end
 
-# 404 page
+# Error pages
 
 error 404 do |env|
-  send_json env, {error: "Not found"}
+  if request_accepts_json?(env.request)
+    send_json env, {error: "Not found"}
+  else
+    render_404
+  end
+end
+
+error 500 do |env, err|
+  if request_accepts_json?(env.request)
+    send_json env, {error: err.to_s}
+  else
+    render_500(env, err, true)
+    nil
+  end
 end
