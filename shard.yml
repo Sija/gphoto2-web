@@ -7,7 +7,7 @@ authors:
 dependencies:
   gphoto2:
     github: Sija/gphoto2.cr
-    version: ~> 0.9.0
+    branch: master
   pool:
     github: ysbaddaden/pool
     version: ~> 0.3.0

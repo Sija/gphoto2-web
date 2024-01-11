@@ -24,7 +24,7 @@ module GPhoto2
     def self.camera_by_id(id) : Camera
       Debug.log id
 
-      wrapper = cameras.find &.camera.id.==(id)
+      wrapper = cameras.find &.camera.id.to_s.==(id)
       wrapper || raise CameraNotFoundError.new
 
       # need to unwrap camera object
@@ -34,7 +34,7 @@ module GPhoto2
     def self.camera_by_id(id, exit = false, &)
       Debug.log id
 
-      wrapper = cameras.find &.camera.id.==(id)
+      wrapper = cameras.find &.camera.id.to_s.==(id)
       wrapper || raise CameraNotFoundError.new
 
       wrapper.pool.connection do |camera|

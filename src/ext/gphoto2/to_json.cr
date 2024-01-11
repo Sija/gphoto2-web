@@ -1,4 +1,5 @@
 require "gphoto2"
+require "uuid/json"
 
 module GPhoto2
   class Camera
@@ -53,7 +54,7 @@ module GPhoto2
           size:      size,
           mtime:     mtime,
           readable:  readable?,
-          deletable: deletable?,
+          removable: removable?,
           width:     width,
           height:    height,
         }.to_json(json)
@@ -69,7 +70,7 @@ module GPhoto2
           label:    label,
           info:     info.presence,
           type:     type.to_s,
-          value:    value, # rescue NotImplementedError ?
+          value:    value?,
           readonly: readonly?,
         }.to_json(json)
       end
