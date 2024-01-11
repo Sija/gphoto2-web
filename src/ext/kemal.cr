@@ -14,9 +14,7 @@ private def restore_headers_on_rescue(response, &)
   end
 end
 
-def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil, disposition : String? = nil)
-  disposition ||= "inline"
-
+def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil, disposition = "inline")
   restore_headers_on_rescue(env.response) do |response|
     # WARNING: Executes extra calls to underlying camera
     if file.preview?
@@ -36,6 +34,28 @@ def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil, dispos
     send_file env, file.to_slice,
       mime_type: mime_type,
       filename: filename,
+      disposition: disposition
+  end
+end
+
+def send_file(env, file : GPhoto2::CameraFile, width : Int, height : Int? = nil, disposition = "inline")
+  image = Vips::Image.thumbnail_buffer file.to_slice,
+    width: width,
+    height: height,
+    size: Vips::Enums::Size::Down
+
+  restore_headers_on_rescue(env.response) do |response|
+    if info = file.info.file?
+      if mtime = info.mtime
+        response.headers["Last-Modified"] =
+          mtime.to_s("%a, %d %b %Y %H:%M:%S GMT")
+      end
+    end
+
+    send_file env, image.jpegsave_buffer(strip: true),
+      mime_type: "image/jpeg",
+      # filename: "#{Path[file.name].stem}.jpg",
+      filename: file.name,
       disposition: disposition
   end
 end

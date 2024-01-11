@@ -40,3 +40,7 @@ shards:
     git: https://github.com/sija/raven.cr.git
     version: 1.9.2
 
+  vips:
+    git: https://github.com/naqvis/crystal-vips.git
+    version: 0.1.4
+

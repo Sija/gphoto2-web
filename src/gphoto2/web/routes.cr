@@ -132,10 +132,20 @@ get "/cameras/:id/blob/*filepath" do |env|
   filepath = env.params.url["filepath"]
   path = Path.posix(filepath)
 
+  width = env.params.query["width"]?.try(&.to_i)
+  height = env.params.query["height"]?.try(&.to_i)
+
   GPhoto2::Web.camera_by_id(id) do |camera|
     fs = camera / path.dirname
     file = fs.open(path.basename)
-    send_file env, file
+
+    if width
+      send_file env, file,
+        width: width,
+        height: height
+    else
+      send_file env, file
+    end
   end
 end
 
