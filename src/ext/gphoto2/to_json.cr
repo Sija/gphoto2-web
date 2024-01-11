@@ -76,6 +76,38 @@ module GPhoto2
       end
     end
 
+    class Radio
+      def to_json(json : JSON::Builder)
+        {
+          name:     name,
+          label:    label,
+          info:     info.presence,
+          type:     type.to_s,
+          value:    value?,
+          choices:  choices,
+          readonly: readonly?,
+        }.to_json(json)
+      end
+    end
+
+    class Range
+      def to_json(json : JSON::Builder)
+        range = self.range
+        {
+          name:     name,
+          label:    label,
+          info:     info.presence,
+          type:     type.to_s,
+          value:    value?,
+          choices:  choices,
+          begin:    range.begin,
+          end:      range.end,
+          step:     step,
+          readonly: readonly?,
+        }.to_json(json)
+      end
+    end
+
     class Window
       def to_json(json : JSON::Builder)
         {
