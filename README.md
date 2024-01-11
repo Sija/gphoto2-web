@@ -15,8 +15,7 @@ REST web API for the [libgphoto2](http://www.gphoto.org/) library. You can use i
 
 #### `/cameras`
 
-- `GET /cameras`
-- `GET /cameras/reload`
+- `GET /cameras[?reload=true]`
 
 #### `/cameras/:id`
 
@@ -43,7 +42,7 @@ REST web API for the [libgphoto2](http://www.gphoto.org/) library. You can use i
 
 #### `/cameras/:id/blob`
 
-- `GET /cameras/:id/blob/*filepath`
+- `GET /cameras/:id/blob/*filepath[?width=512&height=768]`
 - `DELETE /cameras/:id/blob/*filepath`
 
 #### `/cameras/:id/zip`
