@@ -14,7 +14,9 @@ private def restore_headers_on_rescue(response, &)
   end
 end
 
-def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil, disposition = "inline")
+private BROWSER_SAFE_EXTENSIONS = %w(.jpg .jpeg .png .gif .bmp .svg .webp)
+
+def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil, disposition = nil)
   restore_headers_on_rescue(env.response) do |response|
     # WARNING: Executes extra calls to underlying camera
     if file.preview?
@@ -30,6 +32,9 @@ def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil, dispos
         mime_type ||= info.type
       end
     end
+
+    ext = Path[filename].extension.downcase
+    disposition ||= "inline" if ext.in?(BROWSER_SAFE_EXTENSIONS)
 
     send_file env, file.to_slice,
       mime_type: mime_type,
