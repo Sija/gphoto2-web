@@ -7,7 +7,7 @@ REST web API for the [libgphoto2](http://www.gphoto.org/) library. You can use i
 - After cloning the repo you need to call `shards install` in order to obtain needed dependencies
 - Next, execute `shards build` (possibly with `--production` flag) to build the binary
 - You're ready to go! It's as easy as running `./bin/server` and checking the http://localhost:3000/cameras for list of detected cameras
-- Passing `SENTRY_DSN` env var while builing/running will provide you with error reporting
+- Passing `SENTRY_DSN` env var while building/running will provide you with error reporting
 
 ## Usage
 
