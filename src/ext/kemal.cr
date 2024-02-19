@@ -1,4 +1,4 @@
-private def restore_headers_on_rescue(response, &)
+private def restore_headers_on_exception(response, &)
   prev_headers = response.headers.clone
   begin
     yield response
@@ -17,7 +17,7 @@ end
 private BROWSER_SAFE_EXTENSIONS = %w(.jpg .jpeg .png .gif .bmp .svg .webp)
 
 def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil, disposition = nil)
-  restore_headers_on_rescue(env.response) do |response|
+  restore_headers_on_exception(env.response) do |response|
     # WARNING: Executes extra calls to underlying camera
     if file.preview?
       filename = GPhoto2::CameraFile::PREVIEW_FILENAME
@@ -58,7 +58,7 @@ def send_file(env, file : GPhoto2::CameraFile, width : Int, height : Int? = nil,
     size: Vips::Enums::Size::Down
   )
 
-  restore_headers_on_rescue(env.response) do |response|
+  restore_headers_on_exception(env.response) do |response|
     if info = file.info.file?
       if mtime = info.mtime
         response.headers["Last-Modified"] =
@@ -76,7 +76,7 @@ end
 def send_folder_zip(env, folder : GPhoto2::CameraFolder, archive_name : String? = nil) : Nil
   archive_name ||= folder.name
 
-  restore_headers_on_rescue(env.response) do
+  restore_headers_on_exception(env.response) do
     folder.to_zip_file(archive_name) do |file|
       send_file env, file.path,
         mime_type: "application/zip",
@@ -86,7 +86,7 @@ def send_folder_zip(env, folder : GPhoto2::CameraFolder, archive_name : String? 
 end
 
 def send_json(env, object) : Nil
-  restore_headers_on_rescue(env.response) do |response|
+  restore_headers_on_exception(env.response) do |response|
     response.content_type = "application/json"
     response << object.to_json
   end
