@@ -43,11 +43,20 @@ def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil, dispos
   end
 end
 
+private MAGICKLOAD_EXTENSIONS = %w(.arw .cin .cr2 .crw .nef .orf .raf .x3f)
+
 def send_file(env, file : GPhoto2::CameraFile, width : Int, height : Int? = nil, disposition = "inline")
-  image = Vips::Image.thumbnail_buffer file.to_slice,
+  if Path[file.name].extension.downcase.in?(MAGICKLOAD_EXTENSIONS)
+    image, _ = Vips::Image.magickload_buffer(file.to_slice)
+  else
+    image = Vips::Image.new_from_buffer(file.to_slice)
+  end
+
+  image = image.thumbnail_image(
     width: width,
     height: height,
     size: Vips::Enums::Size::Down
+  )
 
   restore_headers_on_rescue(env.response) do |response|
     if info = file.info.file?
