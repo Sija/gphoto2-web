@@ -68,8 +68,7 @@ def send_file(env, file : GPhoto2::CameraFile, width : Int, height : Int? = nil,
 
     send_file env, image.jpegsave_buffer(strip: true),
       mime_type: "image/jpeg",
-      # filename: "#{Path[file.name].stem}.jpg",
-      filename: file.name,
+      filename: "#{Path[file.name].stem}.jpg",
       disposition: disposition
   end
 end
