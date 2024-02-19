@@ -132,6 +132,7 @@ get "/cameras/:id/blob/*filepath" do |env|
   filepath = env.params.url["filepath"]
   path = Path.posix(filepath)
 
+  as_jpeg = env.params.query["as_jpeg"]? == "true"
   width = env.params.query["width"]?.try(&.to_i)
   height = env.params.query["height"]?.try(&.to_i)
 
@@ -139,8 +140,8 @@ get "/cameras/:id/blob/*filepath" do |env|
     fs = camera / path.dirname
     file = fs.open(path.basename)
 
-    if width
-      send_file env, file,
+    if as_jpeg || width
+      send_file_as_jpeg env, file,
         width: width,
         height: height
     else

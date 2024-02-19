@@ -45,18 +45,22 @@ end
 
 private MAGICKLOAD_EXTENSIONS = %w(.arw .cin .cr2 .crw .nef .orf .raf .x3f)
 
-def send_file(env, file : GPhoto2::CameraFile, width : Int, height : Int? = nil, disposition = "inline")
-  if Path[file.name].extension.downcase.in?(MAGICKLOAD_EXTENSIONS)
+def send_file_as_jpeg(env, file : GPhoto2::CameraFile, width : Int? = nil, height : Int? = nil, disposition = "inline")
+  file_path = Path[file.path]
+
+  if file_path.extension.downcase.in?(MAGICKLOAD_EXTENSIONS)
     image, _ = Vips::Image.magickload_buffer(file.to_slice)
   else
     image = Vips::Image.new_from_buffer(file.to_slice)
   end
 
-  image = image.thumbnail_image(
-    width: width,
-    height: height,
-    size: Vips::Enums::Size::Down
-  )
+  if width
+    image = image.thumbnail_image(
+      width: width,
+      height: height,
+      size: Vips::Enums::Size::Down,
+    )
+  end
 
   restore_headers_on_exception(env.response) do |response|
     if info = file.info.file?
@@ -68,7 +72,7 @@ def send_file(env, file : GPhoto2::CameraFile, width : Int, height : Int? = nil,
 
     send_file env, image.jpegsave_buffer(strip: true),
       mime_type: "image/jpeg",
-      filename: "#{Path[file.name].stem}.jpg",
+      filename: "#{file_path.stem}.jpg",
       disposition: disposition
   end
 end
