@@ -18,12 +18,12 @@ private BROWSER_SAFE_EXTENSIONS = %w(.jpg .jpeg .png .gif .bmp .svg .webp)
 
 def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil, disposition = nil)
   restore_headers_on_exception(env.response) do |response|
-    # WARNING: Executes extra calls to underlying camera
     if file.preview?
       filename = GPhoto2::CameraFile::PREVIEW_FILENAME
       mime_type ||= "image/jpeg"
     else
       filename = file.name
+      # WARNING: Executes extra calls to underlying camera
       if info = file.info.file?
         if mtime = info.mtime
           response.headers["Last-Modified"] =
