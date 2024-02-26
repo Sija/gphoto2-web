@@ -96,6 +96,13 @@ def send_json(env, object) : Nil
   end
 end
 
+def send_html(env, object) : Nil
+  restore_headers_on_exception(env.response) do |response|
+    response.content_type = "text/html; charset=utf-8"
+    response << object.to_s
+  end
+end
+
 def send_204(env) : Nil
   env.response.status = :no_content
 end
