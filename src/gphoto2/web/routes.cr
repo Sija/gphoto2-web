@@ -196,10 +196,15 @@ error 404 do |env|
 end
 
 error 500 do |env, err|
+  if err.message.try &.matches? /not found/i
+    env.response.status = :not_found
+  else
+    env.response.status = :internal_server_error
+  end
+
   if request_accepts_json?(env.request)
     send_json env, {error: err.to_s}
   else
-    render_500(env, err, true)
-    nil
+    send_html env, Kemal::ExceptionPage.for_runtime_exception(env, err)
   end
 end
