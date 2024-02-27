@@ -140,12 +140,16 @@ get "/cameras/:id/blob/*filepath" do |env|
     fs = camera / path.dirname
     file = fs.open(path.basename)
 
-    if as_jpeg || width
-      send_file_as_jpeg env, file,
-        width: width,
-        height: height
+    if request_accepts_json?(env.request)
+      send_json env, file
     else
-      send_file env, file
+      if as_jpeg || width
+        send_file_as_jpeg env, file,
+          width: width,
+          height: height
+      else
+        send_file env, file
+      end
     end
   end
 end
