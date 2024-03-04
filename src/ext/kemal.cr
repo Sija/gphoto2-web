@@ -72,7 +72,7 @@ def send_file_as_jpeg(env, file : GPhoto2::CameraFile, width : Int? = nil, heigh
 
     disposition ||= "inline"
 
-    send_file env, image.jpegsave_buffer(strip: true),
+    send_file env, image.jpegsave_buffer,
       mime_type: "image/jpeg",
       filename: "#{file_path.stem}.jpg",
       disposition: disposition
