@@ -85,7 +85,7 @@ end
 patch "/cameras/:id/config/:widget" do |env|
   id = env.params.url["id"]
   widget = env.params.url["widget"]
-  value = env.params.json["value"].as(String)
+  value = env.params.json["value"]
 
   GPhoto2::Web.camera_by_id(id) do |camera|
     camera.update({widget => value})
