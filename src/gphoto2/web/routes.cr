@@ -132,7 +132,10 @@ get "/cameras/:id/blob/*filepath" do |env|
   filepath = env.params.url["filepath"]
   path = Path.posix(filepath)
 
-  as_jpeg = env.params.query["as_jpeg"]? == "true"
+  if format = env.params.query["format"]?.presence
+    format = ImageOutputFormat.parse?(format) || raise ArgumentError.new \
+      "Format must be one of: #{ImageOutputFormat.values.join(", ", &.to_s.downcase)}"
+  end
 
   if width = env.params.query["width"]?.presence
     width = width.to_i? || raise ArgumentError.new("Width must be an integer")
@@ -151,8 +154,12 @@ get "/cameras/:id/blob/*filepath" do |env|
     if request_accepts_json?(env.request)
       send_json env, file
     else
-      if as_jpeg || width
-        send_file_as_jpeg env, file,
+      if format || width
+        format ||= ImageOutputFormat.from_path?(path)
+        format ||= ImageOutputFormat::JPEG
+
+        send_file_as env, file,
+          format: format,
           width: width,
           height: height,
           disposition: disposition

@@ -45,10 +45,56 @@ end
 
 private MAGICKLOAD_EXTENSIONS = %w(.arw .cin .cr2 .crw .nef .orf .raf .x3f)
 
-def send_file_as_jpeg(env, file : GPhoto2::CameraFile, width : Int? = nil, height : Int? = nil, disposition = nil)
-  file_path = Path[file.path]
+enum ImageOutputFormat
+  JPEG
+  WEBP
+  PNG
 
-  if file_path.extension.downcase.in?(MAGICKLOAD_EXTENSIONS)
+  def self.from_path?(path : Path)
+    case path.extension.downcase
+    when ".jpeg", ".jpg" then JPEG
+    when ".webp"         then WEBP
+    when ".png"          then PNG
+    end
+  end
+
+  def extension
+    case self
+    in JPEG then ".jpg"
+    in WEBP then ".webp"
+    in PNG  then ".png"
+    end
+  end
+
+  def mime_type
+    case self
+    in JPEG then "image/jpeg"
+    in WEBP then "image/webp"
+    in PNG  then "image/png"
+    end
+  end
+
+  def to_slice(image : Vips::Image, **options)
+    case self
+    in JPEG then image.jpegsave_buffer(**options)
+    in WEBP then image.webpsave_buffer(**options)
+    in PNG  then image.pngsave_buffer(**options)
+    end
+  end
+end
+
+def send_file_as(env, file : GPhoto2::CameraFile, format : ImageOutputFormat = :jpeg, width : Int? = nil, height : Int? = nil, disposition = nil)
+  path = Path[file.path]
+  ext = path.extension.downcase
+
+  same_type = (format.extension == ext)
+  if same_type && !(width || height)
+    send_file env, file,
+      disposition: disposition
+    return
+  end
+
+  if ext.in?(MAGICKLOAD_EXTENSIONS)
     image, _ = Vips::Image.magickload_buffer(file.to_slice)
   else
     image = Vips::Image.new_from_buffer(file.to_slice)
@@ -72,9 +118,9 @@ def send_file_as_jpeg(env, file : GPhoto2::CameraFile, width : Int? = nil, heigh
 
     disposition ||= "inline"
 
-    send_file env, image.jpegsave_buffer,
-      mime_type: "image/jpeg",
-      filename: "#{file_path.stem}.jpg",
+    send_file env, format.to_slice(image),
+      mime_type: format.mime_type,
+      filename: "#{path.stem}#{format.extension}",
       disposition: disposition
   end
 end
