@@ -133,8 +133,13 @@ get "/cameras/:id/blob/*filepath" do |env|
   path = Path.posix(filepath)
 
   as_jpeg = env.params.query["as_jpeg"]? == "true"
-  width = env.params.query["width"]?.try(&.to_i)
-  height = env.params.query["height"]?.try(&.to_i)
+
+  if width = env.params.query["width"]?.presence
+    width = width.to_i? || raise ArgumentError.new("Width must be an integer")
+  end
+  if height = env.params.query["height"]?.presence
+    height = height.to_i? || raise ArgumentError.new("Height must be an integer")
+  end
 
   download = env.params.query["download"]? == "true"
   disposition = "attachment" if download
