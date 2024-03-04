@@ -7,6 +7,7 @@ enum ImageOutputFormat
   JPEG
   WEBP
   PNG
+  AUTO
 
   def self.from_path?(path : Path)
     case path.extension.downcase
@@ -21,6 +22,7 @@ enum ImageOutputFormat
     in JPEG then ".jpg"
     in WEBP then ".webp"
     in PNG  then ".png"
+    in AUTO then raise "Use specific format"
     end
   end
 
@@ -29,6 +31,7 @@ enum ImageOutputFormat
     in JPEG then "image/jpeg"
     in WEBP then "image/webp"
     in PNG  then "image/png"
+    in AUTO then raise "Use specific format"
     end
   end
 
@@ -37,6 +40,7 @@ enum ImageOutputFormat
     in JPEG then image.jpegsave_buffer(**options)
     in WEBP then image.webpsave_buffer(**options)
     in PNG  then image.pngsave_buffer(**options)
+    in AUTO then raise "Use specific format"
     end
   end
 end
@@ -68,9 +72,15 @@ def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil, dispos
   end
 end
 
-def send_file_as(env, file : GPhoto2::CameraFile, format : ImageOutputFormat = :jpeg, width : Int? = nil, height : Int? = nil, disposition = nil)
+def send_file_as(env, file : GPhoto2::CameraFile, format : ImageOutputFormat, width : Int? = nil, height : Int? = nil, disposition = nil)
   path = Path[file.path]
   ext = path.extension.downcase
+
+  if format.auto?
+    format = nil
+    format ||= ImageOutputFormat::WEBP if request_accepts?(env.request, "image/webp")
+    format ||= ImageOutputFormat::JPEG
+  end
 
   same_type = (format.extension == ext)
   if same_type && !(width || height)
