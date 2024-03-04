@@ -45,7 +45,7 @@ end
 
 private MAGICKLOAD_EXTENSIONS = %w(.arw .cin .cr2 .crw .nef .orf .raf .x3f)
 
-def send_file_as_jpeg(env, file : GPhoto2::CameraFile, width : Int? = nil, height : Int? = nil, disposition = "inline")
+def send_file_as_jpeg(env, file : GPhoto2::CameraFile, width : Int? = nil, height : Int? = nil, disposition = nil)
   file_path = Path[file.path]
 
   if file_path.extension.downcase.in?(MAGICKLOAD_EXTENSIONS)
@@ -69,6 +69,8 @@ def send_file_as_jpeg(env, file : GPhoto2::CameraFile, width : Int? = nil, heigh
           mtime.to_s("%a, %d %b %Y %H:%M:%S GMT")
       end
     end
+
+    disposition ||= "inline"
 
     send_file env, image.jpegsave_buffer(strip: true),
       mime_type: "image/jpeg",

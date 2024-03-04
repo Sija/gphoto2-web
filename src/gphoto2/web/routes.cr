@@ -136,6 +136,9 @@ get "/cameras/:id/blob/*filepath" do |env|
   width = env.params.query["width"]?.try(&.to_i)
   height = env.params.query["height"]?.try(&.to_i)
 
+  download = env.params.query["download"]? == "true"
+  disposition = "attachment" if download
+
   GPhoto2::Web.camera_by_id(id) do |camera|
     fs = camera / path.dirname
     file = fs.open(path.basename)
@@ -146,9 +149,11 @@ get "/cameras/:id/blob/*filepath" do |env|
       if as_jpeg || width
         send_file_as_jpeg env, file,
           width: width,
-          height: height
+          height: height,
+          disposition: disposition
       else
-        send_file env, file
+        send_file env, file,
+          disposition: disposition
       end
     end
   end
