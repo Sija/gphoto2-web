@@ -6,6 +6,7 @@ private MAGICKLOAD_EXTENSIONS   = %w(.arw .cin .cr2 .crw .nef .orf .raf .x3f)
 enum ImageOutputFormat
   JPEG
   WEBP
+  AVIF
   PNG
   AUTO
 
@@ -13,6 +14,7 @@ enum ImageOutputFormat
     case path.extension.downcase
     when ".jpeg", ".jpg" then JPEG
     when ".webp"         then WEBP
+    when ".avif"         then AVIF
     when ".png"          then PNG
     end
   end
@@ -21,6 +23,7 @@ enum ImageOutputFormat
     case self
     in JPEG then ".jpg"
     in WEBP then ".webp"
+    in AVIF then ".avif"
     in PNG  then ".png"
     in AUTO then raise "Use specific format"
     end
@@ -30,6 +33,7 @@ enum ImageOutputFormat
     case self
     in JPEG then "image/jpeg"
     in WEBP then "image/webp"
+    in AVIF then "image/avif"
     in PNG  then "image/png"
     in AUTO then raise "Use specific format"
     end
@@ -40,6 +44,12 @@ enum ImageOutputFormat
     in JPEG then image.jpegsave_buffer(**options)
     in WEBP then image.webpsave_buffer(**options)
     in PNG  then image.pngsave_buffer(**options)
+    in AVIF
+      Vips::Target.new_to_memory
+        .tap do |target|
+          image.write_to_target(target, "%.avif", **options)
+        end
+        .blob
     in AUTO then raise "Use specific format"
     end
   end
@@ -78,6 +88,7 @@ def send_file_as(env, file : GPhoto2::CameraFile, format : ImageOutputFormat, wi
 
   if format.auto?
     format = nil
+    format ||= ImageOutputFormat::AVIF if request_accepts?(env.request, "image/avif")
     format ||= ImageOutputFormat::WEBP if request_accepts?(env.request, "image/webp")
     format ||= ImageOutputFormat::JPEG
   end
