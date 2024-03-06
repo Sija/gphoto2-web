@@ -42,7 +42,7 @@ REST web API for the [libgphoto2](http://www.gphoto.org/) library. You can use i
 
 #### `/cameras/:id/blob`
 
-- `GET /cameras/:id/blob/*filepath[?download=true&format=jpeg/webp/png/auto&width=512&height=768]`
+- `GET /cameras/:id/blob/*filepath[?download=true&format=jpeg/webp/avif/png/auto&width=512&height=768]`
 - `DELETE /cameras/:id/blob/*filepath`
 
 #### `/cameras/:id/zip`
