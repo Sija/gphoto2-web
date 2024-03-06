@@ -55,7 +55,7 @@ enum ImageOutputFormat
   end
 end
 
-def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil, disposition = nil)
+def send_file(env, file : GPhoto2::CameraFile, *, mime_type : String? = nil, disposition = nil)
   restore_headers_on_exception(env.response) do |response|
     if file.preview?
       filename = GPhoto2::CameraFile::PREVIEW_FILENAME
@@ -82,7 +82,7 @@ def send_file(env, file : GPhoto2::CameraFile, mime_type : String? = nil, dispos
   end
 end
 
-def send_file_as(env, file : GPhoto2::CameraFile, format : ImageOutputFormat, width : Int? = nil, height : Int? = nil, disposition = nil)
+def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat, width : Int? = nil, height : Int? = nil, disposition = nil)
   path = Path[file.path]
   ext = path.extension.downcase
 
@@ -115,6 +115,7 @@ def send_file_as(env, file : GPhoto2::CameraFile, format : ImageOutputFormat, wi
   end
 
   restore_headers_on_exception(env.response) do |response|
+    # WARNING: Executes extra calls to underlying camera
     if info = file.info.file?
       if mtime = info.mtime
         response.headers["Last-Modified"] =
