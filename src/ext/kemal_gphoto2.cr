@@ -4,19 +4,28 @@ private BROWSER_SAFE_EXTENSIONS = %w(.jpg .jpeg .png .gif .bmp .svg .webp)
 private MAGICKLOAD_EXTENSIONS   = %w(.arw .cin .cr2 .crw .nef .orf .raf .x3f)
 
 enum ImageOutputFormat
+  # largest in size, yet quickest in terms of encoding speed
   JPEG
+  # ~half size of JPEG, 3rd to last in terms of encoding speed
   WEBP
+  # smallest in size, yet slowest in terms of encoding speed
   AVIF
+  # worst quality, 2nd to last in terms of encoding speed
   PNG
+  # placeholder type to use along with `from_request?`
   AUTO
 
-  def self.from_request?(request : HTTP::Request)
+  # Returns `AVIF` or `WEBP` format (in that order) if *request* supports it,
+  # `nil` otherwise.
+  def self.from_request?(request : HTTP::Request) : self?
     {AVIF, WEBP}.each do |format|
       return format if request_accepts?(request, format.mime_type)
     end
   end
 
-  def self.from_path?(path : Path)
+  # Returns format based on a file extension from the given *path*,
+  # `nil` otherwise.
+  def self.from_path?(path : Path) : self?
     case path.extension.downcase
     when ".jpeg", ".jpg" then JPEG
     when ".webp"         then WEBP
@@ -25,7 +34,7 @@ enum ImageOutputFormat
     end
   end
 
-  def extension
+  def extension : String
     case self
     in JPEG then ".jpg"
     in WEBP then ".webp"
@@ -35,7 +44,7 @@ enum ImageOutputFormat
     end
   end
 
-  def mime_type
+  def mime_type : String
     case self
     in JPEG then "image/jpeg"
     in WEBP then "image/webp"
@@ -45,7 +54,8 @@ enum ImageOutputFormat
     end
   end
 
-  def to_slice(image : Vips::Image, **options)
+  # Returns *image* in a `self` format.
+  def to_slice(image : Vips::Image, **options) : Bytes
     case self
     in JPEG then image.jpegsave_buffer(**options)
     in WEBP then image.webpsave_buffer(**options)
