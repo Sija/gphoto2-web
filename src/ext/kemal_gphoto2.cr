@@ -10,6 +10,12 @@ enum ImageOutputFormat
   PNG
   AUTO
 
+  def self.from_request?(request : HTTP::Request)
+    {AVIF, WEBP}.each do |format|
+      return format if request_accepts?(request, format.mime_type)
+    end
+  end
+
   def self.from_path?(path : Path)
     case path.extension.downcase
     when ".jpeg", ".jpg" then JPEG
@@ -88,8 +94,7 @@ def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat, wi
 
   if format.auto?
     format = nil
-    format ||= ImageOutputFormat::AVIF if request_accepts?(env.request, "image/avif")
-    format ||= ImageOutputFormat::WEBP if request_accepts?(env.request, "image/webp")
+    format ||= ImageOutputFormat.from_request?(env.request)
     format ||= ImageOutputFormat::JPEG
   end
 
