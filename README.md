@@ -15,18 +15,38 @@ REST web API for the [libgphoto2](http://www.gphoto.org/) library. You can use i
 
 #### `/cameras`
 
-- `GET /cameras[?reload=true]`
+- `GET /cameras`
+
+    Parameters:
+
+    | name     | value  | description                        |
+    | -------- | ------ | ---------------------------------- |
+    | `reload` | `true` | Reloads the camera list beforehand |
 
 #### `/cameras/:id`
 
 - `GET /cameras/:id`
-- `GET /cameras/:id/capture[?delete=true]`
+- `GET /cameras/:id/capture`
+
+    Parameters:
+
+    | name     | value  | description                     |
+    | -------- | ------ | ------------------------------- |
+    | `delete` | `true` | Deletes the image after capture |
+
 - `GET /cameras/:id/preview`
 - `GET /cameras/:id/exit`
 
 #### `/cameras/:id/config`
 
-- `GET /cameras/:id/config[?flat=true]`
+- `GET /cameras/:id/config`
+
+    Parameters:
+
+    | name   | value  | description                                                     |
+    | ------ | ------ | --------------------------------------------------------------- |
+    | `flat` | `true` | Returns one-dimensional configuration map, keyed by widget name |
+
 - `PATCH /cameras/:id/config`
 
 #### `/cameras/:id/config/:widget`
@@ -42,7 +62,17 @@ REST web API for the [libgphoto2](http://www.gphoto.org/) library. You can use i
 
 #### `/cameras/:id/blob`
 
-- `GET /cameras/:id/blob/*filepath[?download=true&format=jpeg/webp/avif/png/auto&width=512&height=768]`
+- `GET /cameras/:id/blob/*filepath`
+
+    Parameters:
+
+    | name       | value                                     | description                                                                                                                             |
+    | ---------- | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+    | `download` | `true`                                    | Make the browser download the image instead of displaying it                                                                            |
+    | `format`   | `jpeg` / `webp` / `avif` / `png` / `auto` | Returns the image in a given format, `auto` chooses between `avif`, `webp` and `jpeg` (in that order), depending on the browser support |
+    | `width`    | *integer*                                 | Returns the image scaled down to the given width                                                                                        |
+    | `height`   | *integer*                                 | Returns the image scaled down to the given height                                                                                       |
+
 - `DELETE /cameras/:id/blob/*filepath`
 
 #### `/cameras/:id/zip`
