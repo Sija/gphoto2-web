@@ -151,6 +151,8 @@ get "/cameras/:id/blob/*filepath" do |env|
     fs = camera / path.dirname
     file = fs.open(path.basename)
 
+    env.response.headers["Vary"] = "Accept"
+
     if request_accepts_json?(env.request)
       send_json env, file
     else
@@ -209,6 +211,8 @@ end
 # Error pages
 
 error 404 do |env|
+  env.response.headers["Vary"] = "Accept"
+
   if request_accepts_json?(env.request)
     send_json env, {error: "Not found"}
   else
@@ -222,6 +226,8 @@ error 500 do |env, err|
   else
     env.response.status = :internal_server_error
   end
+
+  env.response.headers["Vary"] = "Accept"
 
   if request_accepts_json?(env.request)
     send_json env, {error: err.to_s}
