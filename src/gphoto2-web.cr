@@ -1,4 +1,5 @@
 require "json"
+require "log"
 require "compress/zip"
 require "pool/connection"
 require "gphoto2"
