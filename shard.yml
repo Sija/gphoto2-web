@@ -7,7 +7,7 @@ authors:
 dependencies:
   gphoto2:
     github: Sija/gphoto2.cr
-    version: ~> 0.10.1
+    version: ~> 0.10.2
   pool:
     github: ysbaddaden/pool
     version: ~> 0.3.0
@@ -16,7 +16,7 @@ dependencies:
     version: ~> 1.9.2
   kemal:
     github: kemalcr/kemal
-    version: ~> 1.4.0
+    version: ~> 1.5.0
   vips:
     github: naqvis/crystal-vips
     version: ~> 0.1.6

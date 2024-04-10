@@ -18,15 +18,15 @@ shards:
 
   exception_page:
     git: https://github.com/crystal-loot/exception_page.git
-    version: 0.3.1
+    version: 0.4.1
 
   gphoto2:
     git: https://github.com/sija/gphoto2.cr.git
-    version: 0.10.1
+    version: 0.10.2
 
   kemal:
     git: https://github.com/kemalcr/kemal.git
-    version: 1.4.0
+    version: 1.5.0
 
   pool:
     git: https://github.com/ysbaddaden/pool.git
