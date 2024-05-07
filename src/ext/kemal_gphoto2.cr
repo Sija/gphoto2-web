@@ -81,8 +81,7 @@ def send_file(env, file : GPhoto2::CameraFile, *, mime_type : String? = nil, dis
       # WARNING: Executes extra calls to underlying camera
       if info = file.info.file?
         if mtime = info.mtime
-          response.headers["Last-Modified"] =
-            mtime.to_s("%a, %d %b %Y %H:%M:%S GMT")
+          response.headers["Last-Modified"] = HTTP.format_time(mtime)
         end
         mime_type ||= info.type
       end
@@ -133,8 +132,7 @@ def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat, wi
     # WARNING: Executes extra calls to underlying camera
     if info = file.info.file?
       if mtime = info.mtime
-        response.headers["Last-Modified"] =
-          mtime.to_s("%a, %d %b %Y %H:%M:%S GMT")
+        response.headers["Last-Modified"] = HTTP.format_time(mtime)
       end
     end
 

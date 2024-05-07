@@ -1,3 +1,4 @@
+require "http"
 require "json"
 require "log"
 require "compress/zip"
