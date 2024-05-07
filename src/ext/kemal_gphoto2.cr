@@ -99,22 +99,22 @@ def send_file(env, file : GPhoto2::CameraFile, *, mime_type : String? = nil, dis
 end
 
 def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat, width : Int? = nil, height : Int? = nil, disposition = nil)
-  path = Path[file.path]
-  ext = path.extension.downcase
-
   if format.auto?
     format = nil
     format ||= ImageOutputFormat.from_request?(env.request)
     format ||= ImageOutputFormat::JPEG
   end
 
-  same_type = (format.extension == ext)
-  if same_type && !(width || height)
+  path = Path[file.path]
+  path_format = ImageOutputFormat.from_path?(path)
+
+  if format == path_format && !(width || height)
     send_file env, file,
       disposition: disposition
     return
   end
 
+  ext = path.extension.downcase
   if ext.in?(MAGICKLOAD_EXTENSIONS)
     image, _ = Vips::Image.magickload_buffer(file.to_slice)
   else
