@@ -68,7 +68,7 @@ REST web API for the [libgphoto2](http://www.gphoto.org/) library. You can use i
 
     | name       | value                                     | description                                                                                                                             |
     | ---------- | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-    | `download` | `true`                                    | Make the browser download the image instead of displaying it                                                                            |
+    | `download` | `true`                                    | Makes the browser download the image instead of displaying it                                                                           |
     | `format`   | `jpeg` / `webp` / `avif` / `png` / `auto` | Returns the image in a given format, `auto` chooses between `avif`, `webp` and `jpeg` (in that order), depending on the browser support |
     | `width`    | *integer*                                 | Returns the image scaled down to the given width                                                                                        |
     | `height`   | *integer*                                 | Returns the image scaled down to the given height                                                                                       |

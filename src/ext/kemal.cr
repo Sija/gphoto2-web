@@ -3,10 +3,7 @@ def restore_headers_on_exception(response, &)
   begin
     yield response
   rescue ex
-    diff_keys = response.headers.keys - prev_headers.keys
-    diff_keys.each do |key|
-      response.headers.delete(key)
-    end
+    response.headers.clear
     prev_headers.each do |key, value|
       response.headers[key] = value
     end
@@ -36,7 +33,7 @@ def request_accepts?(request, content_type)
   accepts = request.headers["Accept"]?.try do |value|
     value
       .split(',')
-      .map(&.strip.sub(/;.*$/, ""))
+      .map!(&.strip.sub(/;.*$/, ""))
   end
   !!accepts.try &.includes?(content_type)
 end
