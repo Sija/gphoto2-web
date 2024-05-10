@@ -30,6 +30,7 @@ module GPhoto2
       {
         path:    path,
         name:    name,
+        root:    root?,
         folders: folders.map(&.name),
         files:   files,
       }.to_json(json)
