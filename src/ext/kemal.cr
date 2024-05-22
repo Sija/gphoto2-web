@@ -30,12 +30,16 @@ def send_204(env) : Nil
 end
 
 def request_accepts?(request, content_type)
-  accepts = request.headers["Accept"]?.try do |value|
-    value
-      .split(',')
-      .map!(&.strip.sub(/;.*$/, ""))
+  request.headers["Accept"]?.try &.split(',', remove_empty: true) do |accepts|
+    accepts = accepts.strip
+    if idx = accepts.index(';')
+      accepts = accepts[...idx]
+    end
+    if accepts.compare(content_type, case_insensitive: true).zero?
+      return true
+    end
   end
-  !!accepts.try &.includes?(content_type)
+  false
 end
 
 def request_accepts_json?(request)
