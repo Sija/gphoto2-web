@@ -139,9 +139,11 @@ get "/cameras/:id/blob/*filepath" do |env|
 
   if width = env.params.query["width"]?.presence
     width = width.to_i? || raise ArgumentError.new("Width must be an integer")
+    width.positive? || raise ArgumentError.new("Width must be positive")
   end
   if height = env.params.query["height"]?.presence
     height = height.to_i? || raise ArgumentError.new("Height must be an integer")
+    height.positive? || raise ArgumentError.new("Height must be positive")
   end
 
   download = env.params.query["download"]? == "true"
