@@ -49,10 +49,32 @@ REST web API for the [libgphoto2](http://www.gphoto.org/) library. You can use i
 
 - `PATCH /cameras/:id/config`
 
+    Example request:
+
+    ```sh
+    curl \
+        -X PATCH \
+        -H "Accept: application/json" \
+        -H "Content-Type: application/json" \
+        -d '{"whitebalance": "Automatic", "iso": 800, "f-number": "f/4.5"}' \
+        "http://localhost:3000/cameras/5a337150-30ba-40fd-adc2-b9ffacdad188/config"
+    ```
+
 #### `/cameras/:id/config/:widget`
 
 - `GET /cameras/:id/config/:widget`
 - `PATCH /cameras/:id/config/:widget`
+
+    Example request:
+
+    ```sh
+    curl \
+        -X PATCH \
+        -H "Accept: application/json" \
+        -H "Content-Type: application/json" \
+        -d '{"value": "Automatic"}' \
+        "http://localhost:3000/cameras/5a337150-30ba-40fd-adc2-b9ffacdad188/config/whitebalance"
+    ```
 
 #### `/cameras/:id/fs`
 
