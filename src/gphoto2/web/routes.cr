@@ -134,7 +134,7 @@ get "/cameras/:id/blob/*filepath" do |env|
 
   if format = env.params.query["format"]?.presence
     format = ImageOutputFormat.parse?(format) || raise ArgumentError.new \
-      "Format must be one of: #{ImageOutputFormat.values.join(", ", &.to_s.downcase)}"
+      "Format must be one of: #{ImageOutputFormat.values.join(", ", &.to_s.underscore)}"
   end
 
   if width = env.params.query["width"]?.presence
