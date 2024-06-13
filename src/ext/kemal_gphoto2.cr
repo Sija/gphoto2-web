@@ -26,22 +26,24 @@ enum ImageOutputFormat
   # Returns format based on a file extension from the given *path*,
   # `nil` otherwise.
   def self.from_path?(path : Path) : self?
-    case path.extension.downcase
-    when ".jpeg", ".jpg" then JPEG
-    when ".webp"         then WEBP
-    when ".avif"         then AVIF
-    when ".png"          then PNG
+    ext = path.extension.downcase
+    each do |format|
+      return format if !format.auto? && format.extensions.includes?(ext)
+    end
+  end
+
+  def extensions
+    case self
+    in JPEG then {".jpg", ".jpeg"}
+    in WEBP then {".webp"}
+    in AVIF then {".avif"}
+    in PNG  then {".png"}
+    in AUTO then raise "Use specific format"
     end
   end
 
   def extension : String
-    case self
-    in JPEG then ".jpg"
-    in WEBP then ".webp"
-    in AVIF then ".avif"
-    in PNG  then ".png"
-    in AUTO then raise "Use specific format"
-    end
+    extensions.first
   end
 
   def mime_type : String
