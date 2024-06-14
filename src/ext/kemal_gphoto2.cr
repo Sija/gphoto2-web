@@ -15,12 +15,17 @@ enum ImageOutputFormat
   # placeholder type to use along with `from_request?`
   AUTO
 
-  # Returns `AVIF` or `WEBP` format (in that order) if *request* supports it,
+  # Returns first of *formats* found to be supported by the *request*,
   # `nil` otherwise.
-  def self.from_request?(request : HTTP::Request) : self?
-    {AVIF, WEBP}.each do |format|
-      return format if request_accepts?(request, format.mime_type)
+  def self.from_request?(request : HTTP::Request, formats : Enumerable(self)) : self?
+    formats.find do |format|
+      request_accepts?(request, format.mime_type)
     end
+  end
+
+  # :ditto:
+  def self.from_request?(request : HTTP::Request, *formats : self) : self?
+    from_request?(request, formats)
   end
 
   # Returns format based on a file extension from the given *path*,
@@ -101,9 +106,9 @@ end
 
 def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat, width : Int? = nil, height : Int? = nil, disposition = nil)
   if format.auto?
-    format = nil
-    format ||= ImageOutputFormat.from_request?(env.request)
-    format ||= ImageOutputFormat::JPEG
+    format =
+      ImageOutputFormat.from_request?(env.request, :avif, :webp) ||
+        ImageOutputFormat::JPEG
   end
 
   path = Path[file.path]
