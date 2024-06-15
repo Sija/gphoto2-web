@@ -132,21 +132,23 @@ get "/cameras/:id/blob/*filepath" do |env|
   filepath = env.params.url["filepath"]
   path = Path.posix(filepath)
 
-  if format = env.params.query["format"]?.presence
+  query_params = env.params.query
+
+  if format = query_params["format"]?.presence
     format = ImageOutputFormat.parse?(format) || raise ArgumentError.new \
       "Format must be one of: #{ImageOutputFormat.values.join(", ", &.to_s.underscore)}"
   end
 
-  if width = env.params.query["width"]?.presence
+  if width = query_params["width"]?.presence
     width = width.to_i? || raise ArgumentError.new("Width must be an integer")
     width.positive? || raise ArgumentError.new("Width must be positive")
   end
-  if height = env.params.query["height"]?.presence
+  if height = query_params["height"]?.presence
     height = height.to_i? || raise ArgumentError.new("Height must be an integer")
     height.positive? || raise ArgumentError.new("Height must be positive")
   end
 
-  download = env.params.query["download"]? == "true"
+  download = query_params["download"]? == "true"
   disposition = "attachment" if download
 
   GPhoto2::Web.camera_by_id(id) do |camera|
@@ -159,8 +161,9 @@ get "/cameras/:id/blob/*filepath" do |env|
       send_json env, file
     else
       if format || width
-        format ||= ImageOutputFormat.from_path?(path)
-        format ||= ImageOutputFormat::JPEG
+        format ||=
+          ImageOutputFormat.from_path?(path) ||
+            ImageOutputFormat::JPEG
 
         send_file env, file,
           format: format,
