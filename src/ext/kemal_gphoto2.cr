@@ -117,7 +117,8 @@ def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat?, w
   end
   format ||= ImageOutputFormat::JPEG
 
-  if format == path_format && !(width || height)
+  is_same_format = (format == path_format)
+  if is_same_format && !(width || height)
     send_file env, file,
       disposition: disposition
     return
@@ -151,7 +152,10 @@ def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat?, w
       str << "-w#{width}" if width
       str << "-h#{height}" if height
       str <<
-        if path.extension.chars.select!(&.letter?).all?(&.uppercase?)
+        case
+        when is_same_format
+          path.extension
+        when path.extension.chars.select!(&.letter?).all?(&.uppercase?)
           format.extension.upcase
         else
           format.extension
