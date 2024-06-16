@@ -127,9 +127,9 @@ def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat, wi
     image = Vips::Image.new_from_buffer(file.to_slice)
   end
 
-  if width
+  if width || height
     image = image.thumbnail_image(
-      width: width,
+      width: width || image.width,
       height: height,
       size: Vips::Enums::Size::Down,
     )

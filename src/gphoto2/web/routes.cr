@@ -160,7 +160,7 @@ get "/cameras/:id/blob/*filepath" do |env|
     if request_accepts_json?(env.request)
       send_json env, file
     else
-      if format || width
+      if format || width || height
         format ||=
           ImageOutputFormat.from_path?(path) ||
             ImageOutputFormat::JPEG
