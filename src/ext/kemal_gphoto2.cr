@@ -104,6 +104,7 @@ def send_file(env, file : GPhoto2::CameraFile, *, mime_type : String? = nil, dis
   end
 end
 
+# ameba:disable Metrics/CyclomaticComplexity
 def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat, width : Int? = nil, height : Int? = nil, disposition = nil)
   if format.auto?
     format =
