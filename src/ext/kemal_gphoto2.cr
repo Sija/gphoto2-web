@@ -105,15 +105,17 @@ def send_file(env, file : GPhoto2::CameraFile, *, mime_type : String? = nil, dis
 end
 
 # ameba:disable Metrics/CyclomaticComplexity
-def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat, width : Int? = nil, height : Int? = nil, disposition = nil)
-  if format.auto?
-    format =
-      ImageOutputFormat.from_request?(env.request, :avif, :webp) ||
-        ImageOutputFormat::JPEG
-  end
-
+def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat?, width : Int? = nil, height : Int? = nil, disposition = nil)
   path = Path[file.path]
   path_format = ImageOutputFormat.from_path?(path)
+
+  case format
+  when .nil?
+    format = path_format
+  when .auto?
+    format = ImageOutputFormat.from_request?(env.request, :avif, :webp)
+  end
+  format ||= ImageOutputFormat::JPEG
 
   if format == path_format && !(width || height)
     send_file env, file,
