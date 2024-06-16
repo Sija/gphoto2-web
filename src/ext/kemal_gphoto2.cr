@@ -146,16 +146,17 @@ def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat?, w
       end
     end
 
-    filename = path.stem
-    filename += "-w#{width}" if width
-    filename += "-h#{height}" if height
-    filename +=
-      if path.extension.chars.select!(&.letter?).all?(&.uppercase?)
-        format.extension.upcase
-      else
-        format.extension
-      end
-
+    filename = String.build do |str|
+      str << path.stem
+      str << "-w#{width}" if width
+      str << "-h#{height}" if height
+      str <<
+        if path.extension.chars.select!(&.letter?).all?(&.uppercase?)
+          format.extension.upcase
+        else
+          format.extension
+        end
+    end
     disposition ||= "inline"
 
     send_file env, format.to_slice(image),
