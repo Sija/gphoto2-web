@@ -147,6 +147,8 @@ def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat?, w
     end
 
     filename = path.stem
+    filename += "-w#{width}" if width
+    filename += "-h#{height}" if height
     filename +=
       if path.extension.chars.select!(&.letter?).all?(&.uppercase?)
         format.extension.upcase
