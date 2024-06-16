@@ -146,11 +146,19 @@ def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat?, w
       end
     end
 
+    filename = path.stem
+    filename +=
+      if path.extension.chars.select!(&.letter?).all?(&.uppercase?)
+        format.extension.upcase
+      else
+        format.extension
+      end
+
     disposition ||= "inline"
 
     send_file env, format.to_slice(image),
       mime_type: format.mime_type,
-      filename: "#{path.stem}#{format.extension}",
+      filename: filename,
       disposition: disposition
   end
 end
