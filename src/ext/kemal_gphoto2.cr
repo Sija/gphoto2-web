@@ -118,7 +118,9 @@ def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat?, w
   format ||= ImageOutputFormat::JPEG
 
   is_same_format = (format == path_format)
-  if is_same_format && !(width || height)
+  is_same_size = !(width || height)
+
+  if is_same_format && is_same_size
     send_file env, file,
       disposition: disposition
     return
@@ -131,7 +133,7 @@ def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat?, w
     image = Vips::Image.new_from_buffer(file.to_slice)
   end
 
-  if width || height
+  unless is_same_size
     image = image.thumbnail_image(
       width: width || image.width,
       height: height,
