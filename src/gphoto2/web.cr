@@ -31,7 +31,7 @@ module GPhoto2
       wrapper.camera
     end
 
-    def self.camera_by_id(id, exit = false, &)
+    def self.camera_by_id(id, *, exit = false, &)
       Debug.log id
 
       wrapper = cameras.find &.camera.id.to_s.==(id)
