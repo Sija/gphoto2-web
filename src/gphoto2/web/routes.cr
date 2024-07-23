@@ -35,8 +35,7 @@ get "/cameras/:id/preview" do |env|
 
   # NOTE: might be good to use queue here
   GPhoto2::Web.camera_by_id(id) do |camera|
-    file = camera.preview
-    send_file env, file
+    send_file env, camera.preview
   end
 end
 
@@ -56,8 +55,7 @@ get "/cameras/:id/config" do |env|
   flat = env.params.query["flat"]? == "true"
 
   GPhoto2::Web.camera_by_id(id) do |camera|
-    config = flat ? camera.config : camera.window
-    send_json env, config
+    send_json env, flat ? camera.config : camera.window
   end
 end
 
@@ -77,8 +75,7 @@ get "/cameras/:id/config/:widget" do |env|
   widget = env.params.url["widget"]
 
   GPhoto2::Web.camera_by_id(id) do |camera|
-    config = camera.config[widget]
-    send_json env, config
+    send_json env, camera.config[widget]
   end
 end
 
@@ -99,8 +96,7 @@ get "/cameras/:id/fs" do |env|
   id = env.params.url["id"]
 
   GPhoto2::Web.camera_by_id(id) do |camera|
-    fs = camera.filesystem
-    send_json env, fs
+    send_json env, camera.filesystem
   end
 end
 
@@ -109,8 +105,7 @@ get "/cameras/:id/fs/*path" do |env|
   path = env.params.url["path"]
 
   GPhoto2::Web.camera_by_id(id) do |camera|
-    fs = camera / path
-    send_json env, fs
+    send_json env, camera / path
   end
 end
 
@@ -119,8 +114,9 @@ delete "/cameras/:id/fs/*path" do |env|
   path = env.params.url["path"]
 
   GPhoto2::Web.camera_by_id(id) do |camera|
-    fs = camera / path
-    fs.delete
+    camera
+      .filesystem(path)
+      .delete
   end
   send_204 env
 end
@@ -130,7 +126,6 @@ end
 get "/cameras/:id/blob/*filepath" do |env|
   id = env.params.url["id"]
   filepath = env.params.url["filepath"]
-  path = Path.posix(filepath)
 
   query_params = env.params.query
 
@@ -152,8 +147,7 @@ get "/cameras/:id/blob/*filepath" do |env|
   disposition = "attachment" if download
 
   GPhoto2::Web.camera_by_id(id) do |camera|
-    fs = camera / path.dirname
-    file = fs.open(path.basename)
+    file = camera.blob(filepath)
 
     env.response.headers["Vary"] = "Accept"
 
@@ -177,12 +171,11 @@ end
 delete "/cameras/:id/blob/*filepath" do |env|
   id = env.params.url["id"]
   filepath = env.params.url["filepath"]
-  path = Path.posix(filepath)
 
   GPhoto2::Web.camera_by_id(id) do |camera|
-    fs = camera / path.dirname
-    file = fs.open(path.basename)
-    file.delete
+    camera
+      .blob(filepath)
+      .delete
   end
   send_204 env
 end
@@ -193,8 +186,7 @@ get "/cameras/:id/zip" do |env|
   id = env.params.url["id"]
 
   GPhoto2::Web.camera_by_id(id) do |camera|
-    fs = camera.filesystem
-    send_folder_zip env, fs,
+    send_folder_zip env, camera.filesystem,
       archive_name: camera.model
   end
 end
@@ -204,8 +196,7 @@ get "/cameras/:id/zip/*path" do |env|
   path = env.params.url["path"]
 
   GPhoto2::Web.camera_by_id(id) do |camera|
-    fs = camera / path
-    send_folder_zip env, fs
+    send_folder_zip env, camera / path
   end
 end
 

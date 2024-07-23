@@ -81,10 +81,8 @@ end
 def send_file(env, file : GPhoto2::CameraFile, *, mime_type : String? = nil, disposition = nil)
   restore_headers_on_exception(env.response) do |response|
     if file.preview?
-      filename = GPhoto2::CameraFile::PREVIEW_FILENAME
       mime_type ||= "image/jpeg"
     else
-      filename = file.name
       # WARNING: Executes extra calls to underlying camera
       if info = file.info.file?
         if mtime = info.mtime
@@ -94,19 +92,19 @@ def send_file(env, file : GPhoto2::CameraFile, *, mime_type : String? = nil, dis
       end
     end
 
-    ext = Path[filename].extension.downcase
+    ext = file.path.extension.downcase
     disposition ||= "inline" if ext.in?(BROWSER_SAFE_EXTENSIONS)
 
     send_file env, file.to_slice,
       mime_type: mime_type,
-      filename: filename,
+      filename: file.name,
       disposition: disposition
   end
 end
 
 # ameba:disable Metrics/CyclomaticComplexity
 def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat?, width : Int? = nil, height : Int? = nil, disposition = nil)
-  path = Path[file.path]
+  path = file.path
   path_format = ImageOutputFormat.from_path?(path)
 
   case format
