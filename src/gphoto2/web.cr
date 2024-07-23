@@ -21,16 +21,6 @@ module GPhoto2
       end
     end
 
-    def self.camera_by_id(id) : Camera
-      Debug.log id
-
-      wrapper = cameras.find &.camera.id.to_s.==(id)
-      wrapper || raise CameraNotFoundError.new
-
-      # need to unwrap camera object
-      wrapper.camera
-    end
-
     def self.camera_by_id(id, *, exit = false, &)
       Debug.log id
 
