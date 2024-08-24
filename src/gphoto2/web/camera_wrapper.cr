@@ -12,7 +12,7 @@ module GPhoto2
       def initialize(@camera, @timeout : Time::Span = 10.seconds)
       end
 
-      # forward_missing_to :camera
+      forward_missing_to @camera
     end
   end
 end
