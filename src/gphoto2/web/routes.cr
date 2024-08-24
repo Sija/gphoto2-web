@@ -4,8 +4,9 @@ get "/cameras" do |env|
   reload = env.params.query["reload"]? == "true"
   GPhoto2::Web.reset_cameras if reload
 
-  cameras = GPhoto2::Web.cameras.map(&.camera)
-  send_json env, cameras
+  GPhoto2::Web.cameras do |cameras|
+    send_json env, cameras.map(&.camera)
+  end
 end
 
 # /cameras/:id
