@@ -12,7 +12,7 @@ enum ImageOutputFormat
   AVIF
   # worst quality, 2nd to last in terms of encoding speed
   PNG
-  # placeholder type to use along with `from_request?`
+  # placeholder type
   AUTO
 
   # Returns first of *formats* found to be supported by the *request*,
@@ -103,28 +103,26 @@ def send_file(env, file : GPhoto2::CameraFile, *, mime_type : String? = nil, dis
 end
 
 # ameba:disable Metrics/CyclomaticComplexity
-def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat?, width : Int? = nil, height : Int? = nil, disposition = nil)
+def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat?, fallback : ImageOutputFormat = :jpeg, width : Int? = nil, height : Int? = nil, disposition = nil)
   path = file.path
   path_format = ImageOutputFormat.from_path?(path)
 
-  case format
-  when .nil?
-    format = path_format
-  when .auto?
-    format = ImageOutputFormat.from_request?(env.request, :avif, :webp)
+  ext = path.extension.downcase
+
+  if format.nil? || format.auto?
+    send_if_same_size = ext.in?(BROWSER_SAFE_EXTENSIONS)
+    format = path_format || fallback
   end
-  format ||= ImageOutputFormat::JPEG
 
   is_same_format = (format == path_format)
   is_same_size = !(width || height)
 
-  if is_same_format && is_same_size
+  if is_same_size && (send_if_same_size || is_same_format)
     send_file env, file,
       disposition: disposition
     return
   end
 
-  ext = path.extension.downcase
   if ext.in?(MAGICKLOAD_EXTENSIONS)
     image, _ = Vips::Image.magickload_buffer(file.to_slice)
   else

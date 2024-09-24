@@ -88,12 +88,12 @@ REST web API for the [libgphoto2](http://www.gphoto.org/) library. You can use i
 
     Parameters:
 
-    | name       | value                                     | description                                                                                                                             |
-    | ---------- | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-    | `download` | `true`                                    | Makes the browser download the image instead of displaying it                                                                           |
-    | `format`   | `jpeg` / `webp` / `avif` / `png` / `auto` | Returns the image in a given format, `auto` chooses between `avif`, `webp` and `jpeg` (in that order), depending on the browser support |
-    | `width`    | *integer*                                 | Returns the image scaled down to the given width                                                                                        |
-    | `height`   | *integer*                                 | Returns the image scaled down to the given height                                                                                       |
+    | name       | value                                     | description                                                                                                                                           |
+    | ---------- | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | `download` | `true`                                    | Makes the browser download the image instead of displaying it                                                                                         |
+    | `format`   | `jpeg` / `webp` / `avif` / `png` / `auto` | Returns the image in a given format, `auto` chooses between the original format, if it's supported by the browser, and falls back to `jpeg` otherwise |
+    | `width`    | *integer*                                 | Returns the image scaled down to the given width                                                                                                      |
+    | `height`   | *integer*                                 | Returns the image scaled down to the given height                                                                                                     |
 
 - `DELETE /cameras/:id/blob/*filepath`
 

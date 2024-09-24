@@ -25,7 +25,7 @@ get "/cameras/:id/capture" do |env|
 
   GPhoto2::Web.camera_by_id(id) do |camera|
     file = camera.capture
-    send_file(env, file, format: nil).tap do
+    send_file(env, file, format: :auto).tap do
       file.delete if delete
     end
   end
