@@ -225,6 +225,6 @@ error 500 do |env, err|
   if request_accepts_json?(env.request)
     send_json env, {error: err.to_s}
   else
-    send_html env, Kemal::ExceptionPage.for_runtime_exception(env, err)
+    send_html env, Kemal::ExceptionPage.new(env, err)
   end
 end
