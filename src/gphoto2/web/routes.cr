@@ -34,7 +34,6 @@ end
 get "/cameras/:id/preview" do |env|
   id = env.params.url["id"]
 
-  # NOTE: might be good to use queue here
   GPhoto2::Web.camera_by_id(id) do |camera|
     send_file env, camera.preview
   end

@@ -152,10 +152,13 @@ def send_file(env, file : GPhoto2::CameraFile, *, format : ImageOutputFormat?, f
       str <<
         case
         when is_same_format
+          # original extension unchanged (jpeg)
           path.extension
         when path.extension.chars.select!(&.letter?).all?(&.uppercase?)
+          # new extension keeping original uppercase (JPG)
           format.extension.upcase
         else
+          # new extension (jpg)
           format.extension
         end
     end
