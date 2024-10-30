@@ -18,7 +18,7 @@ module GPhoto2
       return unless @@cameras
 
       @@cameras_mutex.synchronize do
-        @@cameras.try &.each &.camera.close
+        @@cameras.try &.each &.pool.connection &.close
         @@cameras = nil
       end
     end
