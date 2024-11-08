@@ -121,6 +121,20 @@ delete "/cameras/:id/fs/*path" do |env|
   send_204 env
 end
 
+put "/cameras/:id/fs/*path" do |env|
+  id = env.params.url["id"]
+  path = env.params.url["path"]
+  path = Path.posix("/", path)
+
+  GPhoto2::Web.camera_by_id(id) do |camera|
+    folder = camera
+      .filesystem(path.dirname)
+      .mkdir(path.basename)
+
+    send_json env, folder
+  end
+end
+
 # /cameras/:id/blob
 
 get "/cameras/:id/blob/*filepath" do |env|

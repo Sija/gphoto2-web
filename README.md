@@ -118,6 +118,16 @@ REST web API for the [libgphoto2](http://www.gphoto.org) library. You can use it
 - `GET /cameras/:id/fs`
 - `GET /cameras/:id/fs/*path`
 - `DELETE /cameras/:id/fs/*path`
+- `PUT /cameras/:id/fs/*path`
+
+    Example request:
+
+    ```sh
+    curl \
+        -X PUT \
+        -H "Accept: application/json" \
+        "http://localhost:3000/cameras/5a337150-30ba-40fd-adc2-b9ffacdad188/fs/store_00010001/DCIM007"
+    ```
 
 #### `/cameras/:id/blob`
 
