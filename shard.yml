@@ -10,7 +10,7 @@ dependencies:
     version: ~> 2.0.0
   gphoto2:
     github: Sija/gphoto2.cr
-    version: ~> 0.12.0
+    version: ~> 0.13.0
   pool:
     github: ysbaddaden/pool
     version: ~> 0.3.0
