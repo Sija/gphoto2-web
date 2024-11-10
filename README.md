@@ -18,19 +18,27 @@ REST web API for the [libgphoto2](http://www.gphoto.org) library. You can use it
 
 ## Features
 
-- Camera detection
+### 🐻 Necessities
+
 - Multiple cameras support
+- Camera detection
+- Camera identification
 - Camera connection reloading
 - Camera ability detection
 - Image capture [^1]
 - Live-view [^1]
-- Configuration preview/modification [^1]
-- File preview (incl. _raw_ camera formats) [^1]
-- File download (in several formats [^2]) [^1]
-- File removal [^1]
+- Configuration reading/modification [^1]
+- Filesystem access [^1]
+
+### 🦊 Creature Comforts
+
 - Folder download as ZIP archive [^1]
+- Folder creation [^1]
 - Folder removal [^1]
-- Minimal dependencies
+- File download (in several formats [^2]) [^1]
+- File preview (incl. _raw_ camera formats) [^1]
+- File upload [^1]
+- File removal [^1]
 
 [^1]: Works only with supported cameras
 [^2]: JPEG, WEBP, AVIF, PNG
