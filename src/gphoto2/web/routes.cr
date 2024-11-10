@@ -194,6 +194,29 @@ delete "/cameras/:id/blob/*filepath" do |env|
   send_204 env
 end
 
+put "/cameras/:id/blob/*filepath" do |env|
+  id = env.params.url["id"]
+  filepath = env.params.url["filepath"]
+  filepath = Path.posix("/", filepath)
+
+  upload = env.params.files["file"]? || raise ArgumentError.new("Missing file")
+  data = upload.tempfile.getb_to_end
+
+  GPhoto2::Web.camera_by_id(id) do |camera|
+    file = camera
+      .filesystem(filepath.dirname)
+      .put(filepath.basename, data)
+
+    env.response.headers["Vary"] = "Accept"
+
+    if request_accepts_json?(env.request)
+      send_json env, file
+    else
+      send_204 env
+    end
+  end
+end
+
 # /cameras/:id/zip
 
 get "/cameras/:id/zip" do |env|

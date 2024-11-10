@@ -143,6 +143,17 @@ REST web API for the [libgphoto2](http://www.gphoto.org) library. You can use it
     | `height`   | *integer*                                 | Returns the image scaled down to the given height                                                                                                     |
 
 - `DELETE /cameras/:id/blob/*filepath`
+- `PUT /cameras/:id/blob/*path`
+
+    Example request:
+
+    ```sh
+    curl \
+        -X PUT \
+        -H "Accept: application/json" \
+        -F file="@/path/to/file.jpg" \
+        "http://localhost:3000/cameras/5a337150-30ba-40fd-adc2-b9ffacdad188/blob/store_00010001/DCIM007/IMG_0001.jpg"
+    ```
 
 #### `/cameras/:id/zip`
 
