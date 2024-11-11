@@ -202,10 +202,17 @@ put "/cameras/:id/blob/*filepath" do |env|
   upload = env.params.files["file"]? || raise ArgumentError.new("Missing file")
   data = upload.tempfile.getb_to_end
 
+  mime_type =
+    upload.headers["Content-Type"]? ||
+      MIME.from_filename?(upload.filename || filepath.basename)
+
   GPhoto2::Web.camera_by_id(id) do |camera|
     file = camera
       .filesystem(filepath.dirname)
-      .put(filepath.basename, data)
+      .put(filepath.basename, data,
+        mime_type: mime_type,
+        mtime: upload.modification_time,
+      )
 
     env.response.headers["Vary"] = "Accept"
 

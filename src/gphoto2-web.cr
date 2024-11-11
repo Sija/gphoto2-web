@@ -1,5 +1,6 @@
 require "http"
 require "json"
+require "mime"
 require "log"
 require "compress/zip"
 require "pool/connection"
