@@ -52,9 +52,11 @@ end
 
 get "/cameras/:id/config" do |env|
   id = env.params.url["id"]
+  reload = env.params.query["reload"]? == "true"
   flat = env.params.query["flat"]? == "true"
 
   GPhoto2::Web.camera_by_id(id) do |camera|
+    camera.reload if reload
     send_json env, flat ? camera.config : camera.window
   end
 end

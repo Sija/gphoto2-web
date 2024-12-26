@@ -88,9 +88,10 @@ REST web API for the [libgphoto2](http://www.gphoto.org) library. You can use it
 
     Parameters:
 
-    | name   | value  | description                                                     |
-    | ------ | ------ | --------------------------------------------------------------- |
-    | `flat` | `true` | Returns one-dimensional configuration map, keyed by widget name |
+    | name     | value  | description                                                     |
+    | -------- | ------ | --------------------------------------------------------------- |
+    | `reload` | `true` | Reloads the camera configuration beforehand                     |
+    | `flat`   | `true` | Returns one-dimensional configuration map, keyed by widget name |
 
 - `PATCH /cameras/:id/config`
 
