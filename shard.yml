@@ -19,7 +19,7 @@ dependencies:
     version: ~> 1.9.4
   kemal:
     github: kemalcr/kemal
-    version: ~> 1.7.2
+    version: ~> 1.8.0
   vips:
     github: naqvis/crystal-vips
     version: ~> 0.1.6
