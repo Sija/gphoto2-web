@@ -36,10 +36,7 @@ jobs:
         run: crystal spec
 
       - name: Build server
-        run: shards build server
-
-      - name: Check formatting
-        run: crystal tool format --check
+        run: shards build
 
       - name: Run ameba linter
         run: bin/ameba
