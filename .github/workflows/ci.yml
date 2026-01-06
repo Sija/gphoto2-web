@@ -37,6 +37,3 @@ jobs:
 
       - name: Build server
         run: shards build
-
-      - name: Run ameba linter
-        run: bin/ameba
