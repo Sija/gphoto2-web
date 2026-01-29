@@ -16,10 +16,10 @@ dependencies:
     version: ~> 0.3.0
   raven:
     github: Sija/raven.cr
-    version: ~> 1.9.4
+    version: ~> 1.9.5
   kemal:
     github: kemalcr/kemal
-    version: ~> 1.8.0
+    version: ~> 1.10.0
   vips:
     github: naqvis/crystal-vips
     version: ~> 0.1.6

@@ -2,7 +2,7 @@ version: 2.0
 shards:
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 1.7.0-dev+git.commit.94ff379e8f3b5677944ab9a97a01aebcfadc2fc1
+    version: 1.7.0-dev+git.commit.f53fcd3382553121239c8f144aec5e27aeadbed8
 
   any_hash:
     git: https://github.com/sija/any_hash.cr.git
@@ -26,7 +26,7 @@ shards:
 
   kemal:
     git: https://github.com/kemalcr/kemal.git
-    version: 1.8.0
+    version: 1.10.1
 
   pool:
     git: https://github.com/ysbaddaden/pool.git
