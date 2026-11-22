@@ -46,6 +46,7 @@ jobs:
               PKG_CONFIG_PATH="${PKG_CONFIG_PATH:+$PKG_CONFIG_PATH:}$dir"
             fi
           done
+          export PKG_CONFIG_PATH
           echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH" >> "$GITHUB_ENV"
           pkg-config --print-errors --libs vips
 
