@@ -36,6 +36,19 @@ jobs:
         with:
           crystal: ${{ matrix.crystal }}
 
+      # Make `.pc` files of keg-only homebrew dependencies visible to `pkg-config`,
+      # otherwise it fails to resolve `vips` and the linker gets a bare `-lvips`
+      - name: Set up PKG_CONFIG_PATH
+        if: matrix.os == 'macos-latest'
+        run: |
+          for dir in "$(brew --prefix)"/opt/*/lib/pkgconfig; do
+            if [ -d "$dir" ]; then
+              PKG_CONFIG_PATH="${PKG_CONFIG_PATH:+$PKG_CONFIG_PATH:}$dir"
+            fi
+          done
+          echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH" >> "$GITHUB_ENV"
+          pkg-config --print-errors --libs vips
+
       - name: Download source
         uses: actions/checkout@v7
 
