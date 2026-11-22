@@ -14,6 +14,7 @@ end
 
 Kemal.config do |config|
   config.powered_by_header = false
+  config.max_request_body_size = 64 * 1024 * 1024 # 64MB
   config.logger = Raven::Kemal::LogHandler.new(Kemal::LogHandler.new)
   config.add_handler Raven::Kemal::ExceptionHandler.new
 end
