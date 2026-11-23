@@ -229,6 +229,20 @@ put "/cameras/:id/blob/*filepath" do |env|
   end
 end
 
+# /cameras/:id/exif
+
+get "/cameras/:id/exif/*filepath" do |env|
+  id = env.params.url["id"]
+  filepath = env.params.url["filepath"]
+
+  GPhoto2::Web.camera_by_id(id) do |camera|
+    file = camera.blob(filepath)
+    data = EXIF::Data.new(file.to_slice)
+
+    send_json env, data.to_h
+  end
+end
+
 # /cameras/:id/zip
 
 get "/cameras/:id/zip" do |env|
@@ -262,7 +276,7 @@ error 404 do |env|
 end
 
 error 500 do |env, err|
-  if err.message.try &.matches? /not found/i
+  if err.is_a?(EXIF::NoDataError) || err.message.try &.matches? /not found/i
     env.response.status = :not_found
   else
     env.response.status = :internal_server_error

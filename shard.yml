@@ -8,6 +8,9 @@ dependencies:
   debug:
     github: Sija/debug.cr
     version: ~> 2.0.0
+  exif:
+    github: Sija/exif.cr
+    version: ~> 1.0.0
   gphoto2:
     github: Sija/gphoto2.cr
     version: ~> 0.14.0
@@ -33,6 +36,6 @@ targets:
   server:
     main: src/server.cr
 
-crystal: ~> 1.17
+crystal: ~> 1.19
 
 license: MIT
