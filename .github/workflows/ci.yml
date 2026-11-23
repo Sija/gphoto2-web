@@ -25,11 +25,11 @@ jobs:
 
       - name: Install APT packages
         if: matrix.os == 'ubuntu-latest'
-        run: sudo apt-get install libevent-dev libyaml-dev libgphoto2-6 libgphoto2-dev libgphoto2-port12 libvips-dev
+        run: sudo apt-get install libevent-dev libyaml-dev libgphoto2-6 libgphoto2-dev libgphoto2-port12 libvips-dev libexif-dev
 
       - name: Install homebrew packages
         if: matrix.os == 'macos-latest'
-        run: brew install libgphoto2 vips
+        run: brew install libgphoto2 vips libexif
 
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1

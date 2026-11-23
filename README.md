@@ -38,6 +38,7 @@ REST web API for the [libgphoto2](http://www.gphoto.org) library. You can use it
 - File download (in several formats [^2]) [^1]
 - File preview (incl. _raw_ camera formats) [^1]
 - File upload [^1]
+- File EXIF metadata (JPEG only) [^1]
 - File removal [^1]
 
 [^1]: Works only with supported cameras
@@ -163,6 +164,23 @@ REST web API for the [libgphoto2](http://www.gphoto.org) library. You can use it
         -F file="@/path/to/file.jpg" \
         "http://localhost:3000/cameras/5a337150-30ba-40fd-adc2-b9ffacdad188/blob/store_00010001/DCIM007/IMG_0001.jpg"
     ```
+
+#### `/cameras/:id/exif`
+
+- `GET /cameras/:id/exif/*filepath`
+
+    Returns the EXIF metadata of the given (JPEG) image, as a JSON object
+    of IFD names to tag names to their human-readable values, i.e.:
+
+    ```json
+    {
+      "0": {"Make": "Canon", "Model": "Canon EOS 5D Mark IV", ...},
+      "EXIF": {"ExposureTime": "1/250 sec.", "FNumber": "f/2.8", ...},
+      "GPS": {...}
+    }
+    ```
+
+    Responds with `404` if the image has no EXIF data.
 
 #### `/cameras/:id/zip`
 
